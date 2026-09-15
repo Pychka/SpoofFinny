@@ -1,3 +1,4 @@
+import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:spoof_finny/screens/main/city_screen.dart';
 import 'package:spoof_finny/screens/main/home_screen.dart';
@@ -13,9 +14,9 @@ class _MainScreenState extends State<MainScreen>{
   int _currentIndex = 1;
 
   final List<Widget> _screens = [
-    CityScreen(),
-    HomeScreen(),
-    CityScreen(),
+    GameWidget(game: CityScreen()),
+    GameWidget(game: HomeScreen()),
+    GameWidget(game: CityScreen()),
   ];
 
   @override

@@ -1,13 +1,18 @@
 
-import 'package:flutter/material.dart';
+import 'package:flame/game.dart';
 
-class CityScreen extends StatelessWidget {
-  const CityScreen({super.key});
-
+class CityScreen extends FlameGame {
+  
   @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text('Город', style: TextStyle(fontSize: 42),),
-    );
+  Future<void> onLoad() async {
+    super.onLoad();
+
+    // Wait assets :)
+    // final background = SpriteComponent()
+    //   ..sprite = await loadSprite("assets/home/background.png")
+    //   ..size = size;
+    // add(background);
+
+    
   }
 }
