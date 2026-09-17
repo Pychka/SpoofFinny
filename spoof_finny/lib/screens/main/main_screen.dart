@@ -1,5 +1,6 @@
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
+import 'package:spoof_finny/models/game_time_manager.dart';
 import 'package:spoof_finny/models/user_info.dart';
 import 'package:spoof_finny/screens/main/city_screen.dart';
 import 'package:spoof_finny/screens/main/home_screen.dart';
@@ -25,8 +26,11 @@ class _MainScreenState extends State<MainScreen>{
   Widget build(BuildContext context) {
     Localizations.localeOf(context).toString();
     final info = UserInfo(
-      currentDate: DateTime.now(),
+      timeManager: GameTimeManager(DateTime.now()),
       currentLocaly: Localizations.localeOf(context),
+      assetsPath: 'kitty/',
+      playerName: '',
+      petName: 'Китик'
     );
     return Scaffold(
       extendBody: true,
@@ -66,7 +70,7 @@ class _MainScreenState extends State<MainScreen>{
                     ),
                     child: 
                       Text(
-                        DateFormat('d MMMM y', info.currentLocaly.toString()).format(info.currentDate),
+                        DateFormat('d MMMM y', info.currentLocaly.toString()).format(info.timeManager.currentDateTime),
                         style: TextStyle(fontSize: 20),
                       )
                     ),
