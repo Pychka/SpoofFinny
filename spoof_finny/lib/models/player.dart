@@ -1,7 +1,5 @@
 import 'dart:async';
-
 import 'package:flame/components.dart';
-import 'package:flutter/material.dart';
 
 enum PlayerState { idle, walk, }
 
@@ -15,16 +13,16 @@ class Player extends SpriteAnimationGroupComponent<PlayerState> with HasGameRefe
     required this.countFrames,
     required this.textureSize,
     required this.assetsFolder
-    }) : super(size: Vector2.all(120.0));
+    }) : super(size: Vector2.all(256.0), priority: 10);
 
   @override
   Future<void> onLoad() async {
     super.onLoad();
 
     // Wait sprites :)
-    final idleSprite = await game.images.load("player.png");
+    final idleSprite = await game.images.load("${assetsFolder}idle.png");
 
-    final walkSprite = await game.images.load("player.png");
+    final walkSprite = await game.images.load("${assetsFolder}run.png");
 
     final idleAnimation = SpriteAnimation.fromFrameData(
       idleSprite,
@@ -49,8 +47,8 @@ class Player extends SpriteAnimationGroupComponent<PlayerState> with HasGameRefe
       PlayerState.walk: walkAnimation,
     };
     
-    current = PlayerState.idle; // Начинаем с ходьбы
-    position = Vector2(100, game.size.y / 2);
+    current = PlayerState.idle;
+    position = Vector2(game.size.x / 2, game.size.y - game.size.y / 4);
     anchor = Anchor.center;
   }
 }
