@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'screens/main/main_screen.dart';
 
 void main() {
@@ -13,6 +14,11 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       title: 'SpoofFinny',
       debugShowCheckedModeBanner: false,
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
       theme: ThemeData(
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(
@@ -25,6 +31,10 @@ class MainApp extends StatelessWidget {
           unselectedItemColor: Color(0xFF94A3B8)
         ),
       ),
+      supportedLocales: const [
+        Locale('ru', 'RU'),
+        Locale('en', 'US'),
+      ],
       home: const MainScreen(),
     );
   }
