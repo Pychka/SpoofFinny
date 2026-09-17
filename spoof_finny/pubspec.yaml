@@ -20,3 +20,4 @@ flutter:
   uses-material-design: true
   assets:
     - assets/ # Добавляй здесь пути до папок с ассетами. Относительно папки spoof_finny
+    - assets/images/
