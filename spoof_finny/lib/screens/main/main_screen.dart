@@ -1,7 +1,9 @@
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
+import 'package:spoof_finny/models/user_info.dart';
 import 'package:spoof_finny/screens/main/city_screen.dart';
 import 'package:spoof_finny/screens/main/home_screen.dart';
+import 'package:intl/intl.dart';
 
 class MainScreen extends StatefulWidget{
   const MainScreen({super.key});
@@ -21,11 +23,72 @@ class _MainScreenState extends State<MainScreen>{
 
   @override
   Widget build(BuildContext context) {
+    Localizations.localeOf(context).toString();
+    final info = UserInfo(
+      currentDate: DateTime.now(),
+      currentLocaly: Localizations.localeOf(context),
+    );
     return Scaffold(
       extendBody: true,
-      body: IndexedStack(
-        index: _currentIndex,
-        children: _screens,
+      body: Stack(
+        children: [
+          IndexedStack(
+            index: _currentIndex,
+            children: _screens,
+          ),
+          SafeArea(
+            child: 
+              Padding(
+                padding: EdgeInsetsGeometry.all(5),
+                child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    margin: EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                      color: Color(0xA0FFFFFF),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: 
+                      IconButton(
+                          icon: const Icon(Icons.map_outlined),
+                          onPressed: () => {
+                            print('map')
+                          },
+                        ),
+                    ),
+                  Container(
+                    margin: EdgeInsets.all(5),
+                    padding: EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: Color(0xA0FFFFFF),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: 
+                      Text(
+                        DateFormat('d MMMM y', info.currentLocaly.toString()).format(info.currentDate),
+                        style: TextStyle(fontSize: 20),
+                      )
+                    ),
+                  Container(
+                    margin: EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                      color: Color(0xA0FFFFFF),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: 
+                      IconButton(
+                          icon: const Icon(Icons.settings_outlined),
+                          onPressed: () => {
+                            print('settings')
+                          },
+                        ),
+                    ),
+                ],
+              ),
+              )
+          ),
+        ],
       ),
       bottomNavigationBar: BottomNavigationBar( 
         currentIndex: _currentIndex,
