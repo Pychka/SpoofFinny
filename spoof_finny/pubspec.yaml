@@ -10,6 +10,9 @@ dependencies:
   flame: ^1.38.2
   flutter:
     sdk: flutter
+  intl: ^0.20.3
+  flutter_localizations:
+    sdk: flutter
 
 dev_dependencies:
   flutter_test:
@@ -21,3 +24,5 @@ flutter:
   assets:
     - assets/ # Добавляй здесь пути до папок с ассетами. Относительно папки spoof_finny
     - assets/images/
+    - assets/images/hallway/
+    - assets/images/kitty/
