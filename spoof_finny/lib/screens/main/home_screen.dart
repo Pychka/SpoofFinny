@@ -3,8 +3,8 @@ import 'dart:async';
 import 'dart:math';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
+import 'package:spoof_finny/models/data_services/storage_service.dart';
 import 'package:spoof_finny/models/interactive_area.dart';
-import 'package:spoof_finny/models/player.dart';
 
 class HomeScreen extends FlameGame with HasGameReference {
   
@@ -18,13 +18,9 @@ class HomeScreen extends FlameGame with HasGameReference {
       ..size = size;
     add(background);
 
-    final player = Player(
-      assetsFolder: 'kitty/',
-      countFrames: 8,
-      textureSize: 128
-    );
+    final player = StorageService.instance.getUserInfo()?.player;
 
-    add(player);
+    add(player!);
     
     final table = InteractiveArea(
       position: Vector2(min(game.size.x - game.size.x / 6, game.size.x - 128), game.size.y - game.size.y / 2.5),
