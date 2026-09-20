@@ -1,12 +1,19 @@
+import 'package:hive/hive.dart';
+
+part 'money_storage.g.dart';
+
+@HiveType(typeId: 4)
 class MoneyStorage{
-  double _money = 0.0;
+  @HiveField(0)
+  double money;
+  MoneyStorage({required this.money});
+
+
   bool get(double needable){
-    if(_money >= needable){
-      _money -= needable;
+    if(money >= needable){
+      money -= needable;
       return true;
     }
     return false;
   }
-
-  set money(double money) => _money += money;
 }
