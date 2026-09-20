@@ -1,22 +1,25 @@
 import 'dart:async';
+import 'package:hive/hive.dart';
 import 'package:spoof_finny/models/game_time_changed_event.dart';
+part 'game_time_manager.g.dart';
 
+@HiveType(typeId: 8)
 class GameTimeManager {
-  DateTime _currentDateTime;
+  @HiveField(0)
+  DateTime currentDateTime;
   
   final StreamController<GameTimeChangedEvent> _timeChangedController = 
       StreamController<GameTimeChangedEvent>.broadcast();
 
-  GameTimeManager(this._currentDateTime);
+  GameTimeManager({required this.currentDateTime});
 
-  DateTime get currentDateTime => _currentDateTime;
   Stream<GameTimeChangedEvent> get onTimeChanged => _timeChangedController.stream;
 
   void advanceTime(Duration duration) {
-    DateTime oldDateTime = _currentDateTime;
-    _currentDateTime = _currentDateTime.add(duration);
+    DateTime oldDateTime = currentDateTime;
+    currentDateTime = currentDateTime.add(duration);
 
-    final event = GameTimeChangedEvent(from: oldDateTime, to: _currentDateTime);
+    final event = GameTimeChangedEvent(from: oldDateTime, to: currentDateTime);
     _timeChangedController.add(event);
   }
 

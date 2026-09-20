@@ -5,7 +5,7 @@ enum PlayerState { idle, walk, }
 
 class Player extends SpriteAnimationGroupComponent<PlayerState> with HasGameReference{
   final int countFrames;
-  final double textureSize;
+  final Vector2 textureSize;
   final double moveSpeed = 32.0;
   final String assetsFolder;
 
@@ -29,7 +29,7 @@ class Player extends SpriteAnimationGroupComponent<PlayerState> with HasGameRefe
       SpriteAnimationData.sequenced(
         amount: countFrames,
         stepTime: 1.0 / countFrames,
-        textureSize: Vector2.all(textureSize),
+        textureSize: textureSize,
       )
     );
 
@@ -38,7 +38,7 @@ class Player extends SpriteAnimationGroupComponent<PlayerState> with HasGameRefe
       SpriteAnimationData.sequenced(
         amount: countFrames,
         stepTime: 1.0 / countFrames,
-        textureSize: Vector2.all(textureSize),
+        textureSize: textureSize,
       )
     );
     
