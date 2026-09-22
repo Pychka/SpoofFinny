@@ -1,9 +1,9 @@
-
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/adapters.dart';
+import 'package:hive_ce_flutter/hive_flutter.dart';
+import 'package:spoof_finny/models/experience_system.dart';
 import 'package:spoof_finny/models/game_time_manager.dart';
 import 'package:spoof_finny/models/money_system/credit_card.dart';
 import 'package:spoof_finny/models/money_system/debit_card.dart';
+import 'package:spoof_finny/models/money_system/money_manager.dart';
 import 'package:spoof_finny/models/money_system/saving_account.dart';
 import 'package:spoof_finny/models/money_system/wallet.dart';
 import 'package:spoof_finny/models/user_info.dart';
@@ -29,6 +29,8 @@ class StorageService {
     Hive.registerAdapter(CreditCardAdapter());
     Hive.registerAdapter(DebitCardAdapter());
     Hive.registerAdapter(Vector2Adapter());
+    Hive.registerAdapter(ExperienceSystemAdapter());
+    Hive.registerAdapter(MoneyManagerAdapter());
     _userBox = await Hive.openBox<UserInfo>(_boxName);
   }
 
