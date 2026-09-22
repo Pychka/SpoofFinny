@@ -1,4 +1,5 @@
-import 'package:hive/hive.dart';
+import 'package:hive_ce/hive_ce.dart';
+import 'package:hive_ce_flutter/hive_flutter.dart';
 import 'package:spoof_finny/models/game_time_changed_event.dart';
 import 'package:spoof_finny/models/money_system/money_storage.dart';
 
@@ -14,7 +15,7 @@ class CreditCard extends MoneyStorage{
   final double dailyInterestRate = 10.0;
   final DateTime lastPayDate =  DateTime.fromMicrosecondsSinceEpoch(0).add(Duration(days: 100000000));
 
-  CreditCard({required super.money});
+  CreditCard({super.money = 0.0});
 
   void accrueInterest(GameTimeChangedEvent event){
     if(event.isLess(lastPayDate, event.to) && lastPayDate.difference(event.to).inDays / 30 > 0){

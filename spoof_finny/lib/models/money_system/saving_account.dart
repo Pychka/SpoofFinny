@@ -1,4 +1,5 @@
-import 'package:hive/hive.dart';
+import 'package:hive_ce/hive_ce.dart';
+import 'package:hive_ce_flutter/hive_flutter.dart';
 import 'package:spoof_finny/models/game_time_changed_event.dart';
 import 'package:spoof_finny/models/money_system/money_storage.dart';
 part 'saving_account.g.dart';
@@ -12,7 +13,7 @@ class SavingAccount extends MoneyStorage{
   @HiveField(3)
   final int payingDay;
 
-  SavingAccount({required this.payingDay, required super.money});
+  SavingAccount({required this.payingDay, super.money = 0.0});
 
   void accrueInterest(GameTimeChangedEvent event){
     DateTime dateTime = event.from;

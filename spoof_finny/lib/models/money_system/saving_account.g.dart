@@ -8,7 +8,7 @@ part of 'saving_account.dart';
 
 class SavingAccountAdapter extends TypeAdapter<SavingAccount> {
   @override
-  final int typeId = 9;
+  final typeId = 9;
 
   @override
   SavingAccount read(BinaryReader reader) {
@@ -16,24 +16,18 @@ class SavingAccountAdapter extends TypeAdapter<SavingAccount> {
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return SavingAccount(
-      payingDay: fields[3] as int,
-      money: fields[0] as double,
-    )..debt = fields[1] as double;
+    return SavingAccount(payingDay: (fields[3] as num).toInt())
+      ..debt = (fields[1] as num).toDouble();
   }
 
   @override
   void write(BinaryWriter writer, SavingAccount obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(2)
       ..writeByte(1)
       ..write(obj.debt)
-      ..writeByte(2)
-      ..write(obj.percents)
       ..writeByte(3)
-      ..write(obj.payingDay)
-      ..writeByte(0)
-      ..write(obj.money);
+      ..write(obj.payingDay);
   }
 
   @override

@@ -1,30 +1,35 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'money_storage.dart';
+part of 'money_manager.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class MoneyStorageAdapter extends TypeAdapter<MoneyStorage> {
+class MoneyManagerAdapter extends TypeAdapter<MoneyManager> {
   @override
-  final typeId = 4;
+  final typeId = 13;
 
   @override
-  MoneyStorage read(BinaryReader reader) {
+  MoneyManager read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return MoneyStorage().._money = (fields[0] as num).toDouble();
+    return MoneyManager(
+      wallet: fields[0] as Wallet,
+      moneyBills: (fields[1] as List).cast<MoneyStorage>(),
+    );
   }
 
   @override
-  void write(BinaryWriter writer, MoneyStorage obj) {
+  void write(BinaryWriter writer, MoneyManager obj) {
     writer
-      ..writeByte(1)
+      ..writeByte(2)
       ..writeByte(0)
-      ..write(obj._money);
+      ..write(obj.wallet)
+      ..writeByte(1)
+      ..write(obj.moneyBills);
   }
 
   @override
@@ -33,7 +38,7 @@ class MoneyStorageAdapter extends TypeAdapter<MoneyStorage> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is MoneyStorageAdapter &&
+      other is MoneyManagerAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

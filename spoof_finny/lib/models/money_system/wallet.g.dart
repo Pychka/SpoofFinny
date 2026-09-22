@@ -8,7 +8,7 @@ part of 'wallet.dart';
 
 class WalletAdapter extends TypeAdapter<Wallet> {
   @override
-  final int typeId = 6;
+  final typeId = 6;
 
   @override
   Wallet read(BinaryReader reader) {
@@ -16,17 +16,12 @@ class WalletAdapter extends TypeAdapter<Wallet> {
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return Wallet(
-      money: fields[0] as double,
-    );
+    return Wallet();
   }
 
   @override
   void write(BinaryWriter writer, Wallet obj) {
-    writer
-      ..writeByte(1)
-      ..writeByte(0)
-      ..write(obj.money);
+    writer.writeByte(0);
   }
 
   @override

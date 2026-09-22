@@ -8,7 +8,7 @@ part of 'debit_card.dart';
 
 class DebitCardAdapter extends TypeAdapter<DebitCard> {
   @override
-  final int typeId = 7;
+  final typeId = 7;
 
   @override
   DebitCard read(BinaryReader reader) {
@@ -16,17 +16,12 @@ class DebitCardAdapter extends TypeAdapter<DebitCard> {
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return DebitCard(
-      money: fields[0] as double,
-    );
+    return DebitCard();
   }
 
   @override
   void write(BinaryWriter writer, DebitCard obj) {
-    writer
-      ..writeByte(1)
-      ..writeByte(0)
-      ..write(obj.money);
+    writer.writeByte(0);
   }
 
   @override

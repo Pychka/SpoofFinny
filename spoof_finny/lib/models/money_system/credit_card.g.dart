@@ -8,7 +8,7 @@ part of 'credit_card.dart';
 
 class CreditCardAdapter extends TypeAdapter<CreditCard> {
   @override
-  final int typeId = 5;
+  final typeId = 5;
 
   @override
   CreditCard read(BinaryReader reader) {
@@ -16,23 +16,15 @@ class CreditCardAdapter extends TypeAdapter<CreditCard> {
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return CreditCard(
-      money: fields[0] as double,
-    )..debt = fields[1] as double;
+    return CreditCard()..debt = (fields[1] as num).toDouble();
   }
 
   @override
   void write(BinaryWriter writer, CreditCard obj) {
     writer
-      ..writeByte(4)
       ..writeByte(1)
-      ..write(obj.debt)
-      ..writeByte(2)
-      ..write(obj.limit)
-      ..writeByte(3)
-      ..write(obj.dailyInterestRate)
-      ..writeByte(0)
-      ..write(obj.money);
+      ..writeByte(1)
+      ..write(obj.debt);
   }
 
   @override
