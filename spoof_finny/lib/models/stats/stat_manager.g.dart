@@ -1,38 +1,30 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'experience_system.dart';
+part of 'stat_manager.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class ExperienceSystemAdapter extends TypeAdapter<ExperienceSystem> {
+class StatManagerAdapter extends TypeAdapter<StatManager> {
   @override
-  final typeId = 10;
+  final typeId = 15;
 
   @override
-  ExperienceSystem read(BinaryReader reader) {
+  StatManager read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return ExperienceSystem(
-        factor: fields[2] == null ? 1 : (fields[2] as num).toInt(),
-      )
-      .._currentLevel = (fields[0] as num).toInt()
-      .._currentExperience = (fields[1] as num).toInt();
+    return StatManager(stats: (fields[0] as Map).cast<String, PlayerStat>());
   }
 
   @override
-  void write(BinaryWriter writer, ExperienceSystem obj) {
+  void write(BinaryWriter writer, StatManager obj) {
     writer
-      ..writeByte(3)
-      ..writeByte(0)
-      ..write(obj._currentLevel)
       ..writeByte(1)
-      ..write(obj._currentExperience)
-      ..writeByte(2)
-      ..write(obj.factor);
+      ..writeByte(0)
+      ..write(obj.stats);
   }
 
   @override
@@ -41,7 +33,7 @@ class ExperienceSystemAdapter extends TypeAdapter<ExperienceSystem> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ExperienceSystemAdapter &&
+      other is StatManagerAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

@@ -2,10 +2,15 @@ import 'dart:ui';
 import 'package:flame/image_composition.dart';
 import 'package:spoof_finny/models/experience_system.dart';
 import 'package:spoof_finny/models/game_time_manager.dart';
-import 'package:spoof_finny/models/money_system/money_storage.dart';
+import 'package:spoof_finny/models/item.dart';
+import 'package:spoof_finny/models/item_factory.dart';
+import 'package:spoof_finny/models/money_system/money_manager.dart';
 import 'package:spoof_finny/models/money_system/wallet.dart';
 import 'package:spoof_finny/models/player.dart';
-import 'package:hive/hive.dart';
+import 'package:hive_ce/hive_ce.dart';
+import 'package:hive_ce_flutter/hive_flutter.dart';
+import 'package:collection/collection.dart';
+import 'package:spoof_finny/models/stats/stat_manager.dart';
 
 part 'user_info.g.dart';
 
@@ -28,11 +33,13 @@ class UserInfo{
   String playerName;
   Player player;
   @HiveField(7)
-  Wallet wallet = Wallet(money: 0.0);
+  MoneyManager moneyManager = MoneyManager(wallet: Wallet(), moneyBills: []);
   @HiveField(8)
-  List<MoneyStorage> moneyBills = [];
-  @HiveField(9)
   ExperienceSystem experienceSystem;
+  @HiveField(10)
+  StatManager statManager = StatManager(stats: {});
+  @HiveField(9)
+  List<Item> inventory;
 
   UserInfo({
     required this.timeManager,
@@ -44,10 +51,17 @@ class UserInfo{
     required this.playerName,
     Player? player,
     ExperienceSystem? experienceSystem,
-  }) : player = player ?? Player(countFrames: countFrames, textureSize: textureSize, assetsFolder: assetsPath), experienceSystem = experienceSystem ?? ExperienceSystem(0, 0, 20);
+    this.inventory = const [],
+  }) : player = player ?? Player(countFrames: countFrames, textureSize: textureSize, assetsFolder: assetsPath), experienceSystem = experienceSystem ?? ExperienceSystem(currentLevel: 0, currentExperience: 0, factor: 20);
   
   Locale get currentLocale {
     final parts = localeCode.split('_');
     return parts.length > 1 ? Locale(parts[0], parts[1]) : Locale(parts[0]);
+  }
+
+  void addItem({required String name, int count = 0}){
+    Item item = inventory.firstWhereOrNull((item) => item.name == name) ?? ItemFactory.instance.get(name);
+    item.count += count;
+    inventory.add(item);
   }
 }

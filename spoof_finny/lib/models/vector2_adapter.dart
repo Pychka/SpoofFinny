@@ -1,5 +1,6 @@
 import 'package:flame/extensions.dart';
-import 'package:hive/hive.dart';
+import 'package:hive_ce/hive_ce.dart';
+import 'package:hive_ce_flutter/hive_flutter.dart';
 
 class Vector2Adapter extends TypeAdapter<Vector2> {
   @override

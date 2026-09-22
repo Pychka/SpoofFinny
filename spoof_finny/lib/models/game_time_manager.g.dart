@@ -8,7 +8,7 @@ part of 'game_time_manager.dart';
 
 class GameTimeManagerAdapter extends TypeAdapter<GameTimeManager> {
   @override
-  final int typeId = 8;
+  final typeId = 8;
 
   @override
   GameTimeManager read(BinaryReader reader) {
@@ -16,9 +16,7 @@ class GameTimeManagerAdapter extends TypeAdapter<GameTimeManager> {
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return GameTimeManager(
-      currentDateTime: fields[0] as DateTime,
-    );
+    return GameTimeManager(currentDateTime: fields[0] as DateTime);
   }
 
   @override
