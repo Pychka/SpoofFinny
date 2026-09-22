@@ -1,11 +1,9 @@
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
-import 'package:spoof_finny/models/data_services/storage_service.dart';
-import 'package:spoof_finny/models/game_time_manager.dart';
-import 'package:spoof_finny/models/user_info.dart';
+import 'package:spoof_finny/models/game_state.dart';
+import 'package:spoof_finny/screens/additional/tasks_screen.dart';
 import 'package:spoof_finny/screens/main/city_screen.dart';
 import 'package:spoof_finny/screens/main/home_screen.dart';
-import 'package:intl/intl.dart';
 
 class MainScreen extends StatefulWidget{
   const MainScreen({super.key});
@@ -24,21 +22,7 @@ class _MainScreenState extends State<MainScreen>{
 
   @override
   Widget build(BuildContext context) {
-    UserInfo? info = StorageService.instance.getUserInfo();
-    if(info == null){
-        info = UserInfo(
-        timeManager: GameTimeManager(currentDateTime: DateTime.now()),
-        localeCode: Localizations.localeOf(context).toString(),
-        assetsPath: 'kitty/',
-        playerName: '',
-        petName: 'Китик',
-        countFrames: 8,
-        textureSize: Vector2.all(128),
-      );
-      StorageService.instance.saveUserInfo(info);
-    }
-
-
+    GameState.instance.userInfo.localeCode = Localizations.localeOf(context).toString();
     return Scaffold(
       extendBody: true,
       body: Stack(
@@ -85,7 +69,15 @@ class _MainScreenState extends State<MainScreen>{
                                 ),
                                 IconButton(
                                   icon: const Icon(Icons.task_alt_outlined),
-                                  onPressed: () => print('tasks'),
+                                  onPressed: () {
+                                    showDialog(
+                                      context: context,
+                                      barrierDismissible: true,
+                                      builder: (BuildContext context) {
+                                        return const TasksScreen();
+                                      }
+                                    );
+                                  }
                                 ),
                               ],
                             ),
@@ -102,9 +94,13 @@ class _MainScreenState extends State<MainScreen>{
                         Row(
                           spacing: 5,
                           children: [
-                            Text(
-                              "${info.wallet.money} 🪙",
-                              style: TextStyle(fontSize: 20),
+                            ValueListenableBuilder<double>(
+                              valueListenable: GameState.instance.userInfo.moneyManager.wallet.moneyNotifier,
+                              builder: (context, value, child) =>
+                                Text(
+                                  "${GameState.instance.userInfo.moneyManager.wallet.money} 🪙",
+                                  style: TextStyle(fontSize: 20),
+                                ),
                             ),
                             Stack(
                               alignment: Alignment.center,
@@ -112,21 +108,30 @@ class _MainScreenState extends State<MainScreen>{
                                 SizedBox(
                                   width: 150.0,
                                   height: 30,
-                                  child: LinearProgressIndicator(
-                                    value: info.experienceSystem.currentExperience / info.experienceSystem.nextLevelExperience,
-                                    borderRadius: BorderRadius.circular(20),
-                                    color: Colors.green,
-                                    backgroundColor: Colors.grey,
-                                  ),
+                                  child: ValueListenableBuilder<int>(
+                                    valueListenable: GameState.instance.userInfo.experienceSystem.currentExperienceNotifier,
+                                    builder: (context, currentExperience, child) {
+                                      return LinearProgressIndicator(
+                                        value: GameState.instance.userInfo.experienceSystem.nextLevelExperience == 0 ? 0.0 : ((currentExperience - GameState.instance.userInfo.experienceSystem.skipedExp) / GameState.instance.userInfo.experienceSystem.nextLevelExperience),
+                                        borderRadius: BorderRadius.circular(20),
+                                        color: Colors.green,
+                                        backgroundColor: Colors.grey,
+                                      );
+                                    },
+                                  )
                                 ),
-                                Text(
-                                  '${info.experienceSystem.currentLevel} уровень',
-                                  style: const TextStyle(
-                                    color: Colors.white, 
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 12,
-                                  ),
-                                ),
+                                ValueListenableBuilder<int>(
+                                  valueListenable: GameState.instance.userInfo.experienceSystem.currentLevelNotifier,
+                                  builder: (context, value, child) =>
+                                    Text(
+                                      '${GameState.instance.userInfo.experienceSystem.currentLevel} уровень',
+                                      style: const TextStyle(
+                                        color: Colors.white, 
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 12,
+                                      ),
+                                    )
+                                )
                               ],
                             )
                           ],
