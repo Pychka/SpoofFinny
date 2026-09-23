@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:spoof_finny/models/game_events/game_event.dart';
-import 'package:spoof_finny/models/game_state.dart';
 import 'package:spoof_finny/models/quests/quest.dart';
 
 class QuestCard extends StatefulWidget {
@@ -29,13 +27,20 @@ class _QuestCardState extends State<QuestCard> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                Text(
-                  widget.quest.title,
-                  style: TextStyle(fontSize: 20),
-                )
-              ],
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 5),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Center(
+                      child: Text(
+                        widget.quest.title,
+                        style: TextStyle(fontSize: 20),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
             Expansible(
               controller: _controller,
@@ -47,7 +52,7 @@ class _QuestCardState extends State<QuestCard> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text('Задачи', style: TextStyle(fontSize: 20)),
+                        const Text('Содержание', style: TextStyle(fontSize: 15)),
                         RotationTransition(
                           turns: Tween<double>(begin: 0.0, end: 0.5).animate(animation),
                           child: const Icon(Icons.keyboard_arrow_down),
@@ -63,10 +68,18 @@ class _QuestCardState extends State<QuestCard> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        Text(
+                          'Описание:'
+                        ),
                         const Divider(),
                         Text(
                           widget.quest.description
                         ),
+                        const SizedBox(height: 8),
+                        Text(
+                          'Задачи:'
+                        ),
+                        const Divider(),
                         ListView.builder(
                           itemCount: widget.quest.goals.length,
                           shrinkWrap: true,
@@ -82,14 +95,11 @@ class _QuestCardState extends State<QuestCard> {
                                   height: 30,
                                   child: goal.getWidget(),
                                 ),
-                                IconButton(
-                                  onPressed: () => GameState.instance.actionBus.actionHappen(EatGameEvent(foodName: 'banana', count: 1)),
-                                  icon: Text('+1'),
-                                )
                               ],
                             );
                           },
                         ),
+                        const SizedBox(height: 8),
                         Text('Награды:'),
                         const Divider(),
                         SizedBox(
