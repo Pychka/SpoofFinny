@@ -3,11 +3,14 @@ import 'dart:async';
 import 'package:hive_ce/hive_ce.dart';
 import 'package:hive_ce_flutter/hive_flutter.dart';
 import 'package:spoof_finny/models/game_event_bus.dart';
-import 'package:spoof_finny/models/game_events/game_event.dart';
 import 'package:spoof_finny/models/quests/rewards/stat_reward.dart';
 import 'package:spoof_finny/models/stats/operator.dart';
 import 'package:spoof_finny/models/stats/player_stat.dart';
 import 'package:spoof_finny/models/stats/stat_value_state.dart';
+
+import 'package:spoof_finny/models/game_events/complete_task_game_event.dart';
+import 'package:spoof_finny/models/game_events/change_stat_value_game_event.dart';
+import 'package:spoof_finny/models/game_events/crit_stat_value_game_event.dart';
 
 part 'stat_manager.g.dart';
 
@@ -15,16 +18,16 @@ part 'stat_manager.g.dart';
 class StatManager {
   @HiveField(0)
   Map<String, PlayerStat> stats;
-  GameEventBus? actionBus;
+  late GameEventBus _gameEventBus;
   late StreamSubscription onActionHappenSubscription;
 
   StatManager({
     required this.stats,
-    this.actionBus,
   });
 
-  void init(){
-    onActionHappenSubscription = actionBus!.onActionHappen.listen((gameEvent) {
+  void init(GameEventBus gameEventBus){
+    _gameEventBus = gameEventBus;
+    onActionHappenSubscription = _gameEventBus.onActionHappen.listen((gameEvent) {
       if(gameEvent is CompleteTaskGameEvent){
         for(final reward in gameEvent.rewards.whereType<StatReward>()){
           _changeStat(stats[reward.statName], reward.amount, reward.operator);
@@ -45,7 +48,7 @@ class StatManager {
     if(stat == null){
       return;
     }
-    actionBus!.actionHappen(ChangeStatValueGameEvent(stat: stat, value: value, operator: operator));
+    _gameEventBus.actionHappen(ChangeStatValueGameEvent(stat: stat, value: value, operator: operator));
   }
 
   void addStat(PlayerStat stat){
@@ -69,6 +72,6 @@ class StatManager {
     }
     final state = stat.state();
     if(state == StatValueState.normal) return;
-    actionBus!.actionHappen(CritStatValueGameEvent(name: stat.name, state: state));
+    _gameEventBus.actionHappen(CritStatValueGameEvent(name: stat.name, stat: state));
   }
 }

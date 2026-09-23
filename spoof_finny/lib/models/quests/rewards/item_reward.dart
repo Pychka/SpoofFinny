@@ -11,7 +11,7 @@ class ItemReward extends QuestReward {
 
   @override
   void give(UserInfo userInfo, String name){
-    userInfo.addItem(name: name, count: count);
+    userInfo.inventory.addItem(name, count);
   }
   
   @override

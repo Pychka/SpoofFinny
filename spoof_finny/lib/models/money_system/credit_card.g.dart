@@ -16,15 +16,19 @@ class CreditCardAdapter extends TypeAdapter<CreditCard> {
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return CreditCard()..debt = (fields[1] as num).toDouble();
+    return CreditCard()
+      ..moneyValue = (fields[0] as num).toDouble()
+      .._debt = (fields[1] as num).toDouble();
   }
 
   @override
   void write(BinaryWriter writer, CreditCard obj) {
     writer
+      ..writeByte(2)
+      ..writeByte(0)
+      ..write(obj.moneyValue)
       ..writeByte(1)
-      ..writeByte(1)
-      ..write(obj.debt);
+      ..write(obj._debt);
   }
 
   @override

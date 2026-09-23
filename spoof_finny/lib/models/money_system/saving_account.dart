@@ -1,5 +1,7 @@
+import 'package:flutter/widgets.dart';
 import 'package:hive_ce/hive_ce.dart';
 import 'package:hive_ce_flutter/hive_flutter.dart';
+import 'package:spoof_finny/models/game_state.dart';
 import 'package:spoof_finny/models/game_time_changed_event.dart';
 import 'package:spoof_finny/models/money_system/money_storage.dart';
 part 'saving_account.g.dart';
@@ -7,11 +9,20 @@ part 'saving_account.g.dart';
 @HiveType(typeId: 9)
 class SavingAccount extends MoneyStorage{
   @HiveField(1)
-  double debt = 0.0;
+  double _debt = 0.0;
+  ValueNotifier<double> debtNotifier = ValueNotifier(0.0);
   @HiveField(2)
   final double percents = 10.0;
   @HiveField(3)
   final int payingDay;
+
+  double get debt => _debt;
+
+  set debt(double value){
+    _debt = value;
+    debtNotifier.value = value;
+    GameState.instance.saveUserInfo();
+  }
 
   SavingAccount({required this.payingDay, super.money = 0.0});
 
@@ -24,5 +35,11 @@ class SavingAccount extends MoneyStorage{
         debt = 0;
       }
     }
+  }
+
+  @override
+  void init() {
+    debtNotifier.value = debt;
+    super.init();
   }
 }

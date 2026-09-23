@@ -16,7 +16,7 @@ class MoneyStorageAdapter extends TypeAdapter<MoneyStorage> {
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return MoneyStorage().._money = (fields[0] as num).toDouble();
+    return MoneyStorage()..moneyValue = (fields[0] as num).toDouble();
   }
 
   @override
@@ -24,7 +24,7 @@ class MoneyStorageAdapter extends TypeAdapter<MoneyStorage> {
     writer
       ..writeByte(1)
       ..writeByte(0)
-      ..write(obj._money);
+      ..write(obj.moneyValue);
   }
 
   @override

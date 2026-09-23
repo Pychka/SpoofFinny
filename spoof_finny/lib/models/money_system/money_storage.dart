@@ -1,22 +1,26 @@
 import 'package:flutter/foundation.dart';
 import 'package:hive_ce/hive_ce.dart';
 import 'package:hive_ce_flutter/hive_flutter.dart';
+import 'package:spoof_finny/models/game_state.dart';
 
 part 'money_storage.g.dart';
 
 @HiveType(typeId: 4)
 class MoneyStorage{
   @HiveField(0)
-  double _money;
-  ValueNotifier<double> moneyNotifier = ValueNotifier(0.0);
-  MoneyStorage({double money = 0.0}) : _money = money{
-    moneyNotifier.value = _money;
+  double moneyValue;
+  final ValueNotifier<double> moneyNotifier = ValueNotifier(0.0);
+  MoneyStorage({double money = 0.0}) : moneyValue = money;
+
+  void init(){
+    moneyNotifier.value = moneyValue;
   }
 
-  double get money => _money;
+  double get money => moneyValue;
   set money(double money){
-    _money = money;
+    moneyValue = money;
     moneyNotifier.value = money;
+    GameState.instance.saveUserInfo();
   }
 
   bool get(double needable){

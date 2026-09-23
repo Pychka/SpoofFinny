@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:spoof_finny/models/game_events/game_event.dart';
 import 'package:spoof_finny/models/quests/goals/quest_goal_progress.dart';
 
+import '../../game_events/buy_game_event.dart';
+
 class BuyQuestGoal extends QuestGoalProgress {
   double _totalPrice;
   double requiredTotalPrice;

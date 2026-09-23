@@ -1,36 +1,30 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'saving_account.dart';
+part of 'game_object.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class SavingAccountAdapter extends TypeAdapter<SavingAccount> {
+class GameObjectAdapter extends TypeAdapter<GameObject> {
   @override
-  final typeId = 9;
+  final typeId = 20;
 
   @override
-  SavingAccount read(BinaryReader reader) {
+  GameObject read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return SavingAccount(payingDay: (fields[3] as num).toInt())
-      ..moneyValue = (fields[0] as num).toDouble()
-      .._debt = (fields[1] as num).toDouble();
+    return GameObject(name: fields[0] as String);
   }
 
   @override
-  void write(BinaryWriter writer, SavingAccount obj) {
+  void write(BinaryWriter writer, GameObject obj) {
     writer
-      ..writeByte(3)
-      ..writeByte(0)
-      ..write(obj.moneyValue)
       ..writeByte(1)
-      ..write(obj._debt)
-      ..writeByte(3)
-      ..write(obj.payingDay);
+      ..writeByte(0)
+      ..write(obj.name);
   }
 
   @override
@@ -39,7 +33,7 @@ class SavingAccountAdapter extends TypeAdapter<SavingAccount> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is SavingAccountAdapter &&
+      other is GameObjectAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

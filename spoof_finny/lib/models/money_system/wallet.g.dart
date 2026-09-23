@@ -16,12 +16,15 @@ class WalletAdapter extends TypeAdapter<Wallet> {
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return Wallet();
+    return Wallet()..moneyValue = (fields[0] as num).toDouble();
   }
 
   @override
   void write(BinaryWriter writer, Wallet obj) {
-    writer.writeByte(0);
+    writer
+      ..writeByte(1)
+      ..writeByte(0)
+      ..write(obj.moneyValue);
   }
 
   @override

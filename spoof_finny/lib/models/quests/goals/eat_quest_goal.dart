@@ -1,5 +1,8 @@
 import 'package:spoof_finny/models/game_events/game_event.dart';
+import 'package:spoof_finny/models/game_events/use_item_game_event.dart';
 import 'package:spoof_finny/models/quests/goals/quest_goal_progress.dart';
+
+import '../../game_events/eat_game_event.dart';
 
 class EatQuestGoal extends QuestGoalProgress {
   EatQuestGoal({
@@ -12,9 +15,13 @@ class EatQuestGoal extends QuestGoalProgress {
 
   @override
   void onEvent(GameEvent action) {
-    if(action is! EatGameEvent || action.foodName != itemName){
+    if(action is EatGameEvent && action.foodName == itemName){
+      currentValue += action.count;
       return;
     }
-    currentValue += action.count;
+    if(action is UseItemGameEvent && action.item.name == itemName){
+      currentValue += action.count;
+      return;
+    }
   }
 }

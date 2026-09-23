@@ -13,7 +13,7 @@ class TimedQuest extends Quest {
   });
 
   @override
-  void onEvent(GameEvent action) {
+  void onEvent(GameEvent gameEvent) {
     
   }
 }

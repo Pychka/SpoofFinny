@@ -16,12 +16,15 @@ class DebitCardAdapter extends TypeAdapter<DebitCard> {
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return DebitCard();
+    return DebitCard()..moneyValue = (fields[0] as num).toDouble();
   }
 
   @override
   void write(BinaryWriter writer, DebitCard obj) {
-    writer.writeByte(0);
+    writer
+      ..writeByte(1)
+      ..writeByte(0)
+      ..write(obj.moneyValue);
   }
 
   @override

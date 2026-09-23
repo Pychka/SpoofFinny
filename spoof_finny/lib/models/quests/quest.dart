@@ -4,16 +4,11 @@ import 'package:hive_ce_flutter/hive_flutter.dart';
 import 'package:spoof_finny/models/game_events/game_event.dart';
 import 'package:spoof_finny/models/game_state.dart';
 import 'package:spoof_finny/models/quests/goals/quest_goal.dart';
+import 'package:spoof_finny/models/quests/quest_state.dart';
 import 'package:spoof_finny/models/quests/rewards/quest_reward.dart';
 
 part 'quest.g.dart';
 
-enum QuestState{
-  active,
-  fail,
-  completed,
-  expired,
-}
 @HiveType(typeId: 11)
 class Quest {
   @HiveField(0)
@@ -41,6 +36,7 @@ class Quest {
   }
 
   void onEvent(GameEvent gameEvent){
+    int currentCompletedGoals = _completedGoals;
     int completedGoals = 0;
     for(final goal in goals){
       goal.onEvent(gameEvent);
@@ -48,9 +44,14 @@ class Quest {
         completedGoals++;
       }
     }
+    
+    if(currentCompletedGoals != completedGoals){
+      GameState.instance.saveUserInfo();
+    }
+
+    GameState.instance.saveUserInfo();
     if(completedGoals == goals.length){
       state = QuestState.completed;
-      GameState.instance.actionBus.actionHappen(CompleteTaskGameEvent(taskId: id, rewards: rewards));
     }
   }
 

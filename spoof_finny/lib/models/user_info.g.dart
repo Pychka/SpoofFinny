@@ -25,11 +25,9 @@ class UserInfoAdapter extends TypeAdapter<UserInfo> {
         petName: fields[3] as String,
         playerName: fields[6] as String,
         experienceSystem: fields[8] as ExperienceSystem?,
-        inventory: fields[9] == null
-            ? const []
-            : (fields[9] as List).cast<Item>(),
       )
       ..moneyManager = fields[7] as MoneyManager
+      ..inventory = fields[9] as Inventory
       ..statManager = fields[10] as StatManager;
   }
 

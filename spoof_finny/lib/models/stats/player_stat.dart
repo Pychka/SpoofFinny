@@ -1,18 +1,25 @@
 import 'package:flutter/foundation.dart';
+import 'package:hive_ce_flutter/hive_flutter.dart';
+import 'package:spoof_finny/models/stats/stat_type.dart';
 import 'package:spoof_finny/models/stats/stat_value_state.dart';
 
-enum StatType{
-  constant,
-  temporary
-}
+part 'player_stat.g.dart';
 
+@HiveType(typeId: 16)
 class PlayerStat {
+  @HiveField(0)
   String name;
+  @HiveField(1)
   final StatType type;
+  @HiveField(2)
   int _currentValue;
+  @HiveField(3)
   int maxValue;
+  @HiveField(4)
   int minValue;
+  @HiveField(5)
   int? critMinValue;
+  @HiveField(6)
   int? critMaxValue;
   ValueNotifier<int> currentValueNotifier = ValueNotifier(0);
 
