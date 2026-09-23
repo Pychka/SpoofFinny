@@ -1,13 +1,14 @@
 
 import 'dart:async';
-import 'dart:math';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
-import 'package:spoof_finny/models/data_services/storage_service.dart';
-import 'package:spoof_finny/models/interactive_area.dart';
+import 'package:spoof_finny/models/game_state.dart';
+import 'package:spoof_finny/models/interactives/interactive_area.dart';
 
 class HomeScreen extends FlameGame with HasGameReference {
-  
+  HomeScreen({required this.changeScreen});
+
+  final Function(int) changeScreen;
   @override
   Future<void> onLoad() async {
     super.onLoad();
@@ -18,18 +19,19 @@ class HomeScreen extends FlameGame with HasGameReference {
       ..size = size;
     add(background);
 
-    final player = StorageService.instance.getUserInfo()?.player;
+    final player = GameState.instance.userInfo.newPlayer;
 
-    add(player!);
-    
-    final table = InteractiveArea(
-      position: Vector2(min(game.size.x - game.size.x / 6, game.size.x - 128), game.size.y - game.size.y / 2.5),
-      size: Vector2(128, 128),
-      assetPath: 'table.png',
-      onTapAction: () => {
-        print('table is pressed')
-      }
+    add(player);    
+
+    final fridge = InteractiveArea(
+      onTapAction: () {
+        changeScreen(2);
+      },
+      relativeHeight: 0.5,
+      relativeWidth: 0.125,
+      relativeX: 0.06,
+      relativeY: 0.15,
     );
-    add(table);
+    add(fridge);
   }
 }

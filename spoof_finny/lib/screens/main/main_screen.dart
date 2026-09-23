@@ -1,9 +1,11 @@
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
+import 'package:spoof_finny/models/data_services/storage_service.dart';
 import 'package:spoof_finny/models/game_state.dart';
 import 'package:spoof_finny/screens/additional/tasks_screen.dart';
 import 'package:spoof_finny/screens/main/city_screen.dart';
 import 'package:spoof_finny/screens/main/home_screen.dart';
+import 'package:spoof_finny/screens/main/kitchen_screen.dart';
 
 class MainScreen extends StatefulWidget{
   const MainScreen({super.key});
@@ -12,16 +14,29 @@ class MainScreen extends StatefulWidget{
   State<StatefulWidget> createState() => _MainScreenState();
 }
 
-class _MainScreenState extends State<MainScreen>{
+class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   int _currentIndex = 1;
-  final List<Widget> _screens = [
-    GameWidget(game: CityScreen()),
-    GameWidget(game: HomeScreen()),
-    GameWidget(game: CityScreen()),
-  ];
+  late final List<Widget> _screens;
+
+  void changeScreen(int index) {
+      setState(() {
+        _currentIndex = index;
+      });
+    }
+
+  @override
+  void initState() {
+    _screens = [
+      GameWidget(game: CityScreen()),
+      GameWidget(game: HomeScreen(changeScreen: changeScreen)),
+      GameWidget(game: KitchenScreen(changeScreen: changeScreen)),
+    ];
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+
     GameState.instance.userInfo.localeCode = Localizations.localeOf(context).toString();
     return Scaffold(
       extendBody: true,
@@ -58,7 +73,9 @@ class _MainScreenState extends State<MainScreen>{
                               children: [
                                 IconButton(
                                   icon: const Icon(Icons.map_outlined),
-                                  onPressed: () => print('map'),
+                                  onPressed: () {
+
+                                  },
                                 ),
                                 const Divider(
                                   color: Colors.grey,
@@ -112,7 +129,7 @@ class _MainScreenState extends State<MainScreen>{
                                     valueListenable: GameState.instance.userInfo.experienceSystem.currentExperienceNotifier,
                                     builder: (context, currentExperience, child) {
                                       return LinearProgressIndicator(
-                                        value: GameState.instance.userInfo.experienceSystem.nextLevelExperience == 0 ? 0.0 : ((currentExperience - GameState.instance.userInfo.experienceSystem.skipedExp) / GameState.instance.userInfo.experienceSystem.nextLevelExperience),
+                                        value: GameState.instance.userInfo.experienceSystem.getPercentOfNextLevel,
                                         borderRadius: BorderRadius.circular(20),
                                         color: Colors.green,
                                         backgroundColor: Colors.grey,
@@ -147,7 +164,7 @@ class _MainScreenState extends State<MainScreen>{
                         IconButton(
                             icon: const Icon(Icons.settings_outlined),
                             onPressed: () => {
-                              print('settings')
+                              
                             },
                           ),
                       ),
@@ -173,16 +190,23 @@ class _MainScreenState extends State<MainScreen>{
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.home_outlined),
-            activeIcon: Icon(Icons.home_filled),
+            activeIcon: Icon(Icons.home_sharp),
             label: 'Дом'
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.location_city_outlined),
-            activeIcon: Icon(Icons.location_city_sharp),
-            label: 'Город'
+            icon: Icon(Icons.food_bank_outlined),
+            activeIcon: Icon(Icons.food_bank_sharp),
+            label: 'Кухня'
           ),
         ],
       ),
     );
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.paused || state == AppLifecycleState.detached) {
+      StorageService.instance.saveUserInfo(GameState.instance.userInfo);
+    }
   }
 }
