@@ -23,7 +23,7 @@ class HomeScreen extends FlameGame with HasGameReference {
 
     add(player);    
 
-    final fridge = InteractiveArea(
+    final goKitchen = InteractiveArea(
       onTapAction: () {
         changeScreen(2);
       },
@@ -32,6 +32,6 @@ class HomeScreen extends FlameGame with HasGameReference {
       relativeX: 0.06,
       relativeY: 0.15,
     );
-    add(fridge);
+    add(goKitchen);
   }
 }

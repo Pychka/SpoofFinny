@@ -2,6 +2,7 @@ import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:spoof_finny/models/data_services/storage_service.dart';
 import 'package:spoof_finny/models/game_state.dart';
+import 'package:spoof_finny/screens/additional/stats_screen.dart';
 import 'package:spoof_finny/screens/additional/tasks_screen.dart';
 import 'package:spoof_finny/screens/main/city_screen.dart';
 import 'package:spoof_finny/screens/main/home_screen.dart';
@@ -36,7 +37,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-
+    final screenWidth = MediaQuery.of(context).size.width;
     GameState.instance.userInfo.localeCode = Localizations.localeOf(context).toString();
     return Scaffold(
       extendBody: true,
@@ -59,12 +60,10 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(
+                      Card(
                         margin: EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                          color: Color(0xA0FFFFFF),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
+                        color: Color(0xA0FFFFFF),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                         child: 
                           SizedBox(
                             width: 50,
@@ -100,74 +99,98 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                             ),
                           )
                         ),
-                    Container(
-                      margin: EdgeInsets.all(5),
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: Color(0xA0FFFFFF),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: 
-                        Row(
-                          spacing: 5,
-                          children: [
-                            ValueListenableBuilder<double>(
-                              valueListenable: GameState.instance.userInfo.moneyManager.wallet.moneyNotifier,
-                              builder: (context, value, child) =>
-                                Text(
-                                  "${GameState.instance.userInfo.moneyManager.wallet.money} 🪙",
-                                  style: TextStyle(fontSize: 20),
-                                ),
-                            ),
-                            Stack(
-                              alignment: Alignment.center,
-                              children: [
-                                SizedBox(
-                                  width: 150.0,
-                                  height: 30,
-                                  child: ValueListenableBuilder<int>(
-                                    valueListenable: GameState.instance.userInfo.experienceSystem.currentExperienceNotifier,
-                                    builder: (context, currentExperience, child) {
-                                      return LinearProgressIndicator(
-                                        value: GameState.instance.userInfo.experienceSystem.getPercentOfNextLevel,
-                                        borderRadius: BorderRadius.circular(20),
-                                        color: Colors.green,
-                                        backgroundColor: Colors.grey,
-                                      );
-                                    },
-                                  )
-                                ),
-                                ValueListenableBuilder<int>(
-                                  valueListenable: GameState.instance.userInfo.experienceSystem.currentLevelNotifier,
-                                  builder: (context, value, child) =>
-                                    Text(
-                                      '${GameState.instance.userInfo.experienceSystem.currentLevel} уровень',
-                                      style: const TextStyle(
-                                        color: Colors.white, 
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 12,
+                        Expanded(
+                              child: Card(
+                              color: Color(0xA0FFFFFF),
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                              child: 
+                                InkWell(
+                                  onTap: () {
+                                    showDialog(
+                                      context: context,
+                                      barrierDismissible: true,
+                                      builder: (BuildContext context) {
+                                        return const StatsScreen();
+                                      }
+                                    );
+                                  },
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                                child: Row(
+                                  spacing: 5,
+                                  children: [
+                                    ConstrainedBox(
+                                      constraints: BoxConstraints(
+                                        maxWidth: screenWidth * 0.25,
                                       ),
-                                    )
-                                )
-                              ],
+                                      child: ValueListenableBuilder<double>(
+                                        valueListenable: GameState.instance.userInfo.moneyManager.wallet.moneyNotifier,
+                                        builder: (context, value, child) => Text(
+                                            "${value % 1 == 0 ? value.toInt() : value.toStringAsFixed(2)}🪙",
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 1,
+                                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                                          ),
+                                        )
+                                      ),
+                                    Expanded(
+                                      child: 
+                                        ValueListenableBuilder<int>(
+                                          valueListenable: GameState.instance.userInfo.experienceSystem.currentExperienceNotifier,
+                                          builder: (context, currentExperience, child) {
+                                            return Stack(
+                                              alignment: Alignment.center,
+                                              children: [
+                                                LinearProgressIndicator(
+                                                  value: GameState.instance.userInfo.experienceSystem.getPercentOfNextLevel,
+                                                  borderRadius: BorderRadius.circular(20),
+                                                  color: Colors.green,
+                                                  minHeight: 30,
+                                                  backgroundColor: Colors.grey,
+                                                ),
+                                                Text(
+                                                  '$currentExperience/${GameState.instance.userInfo.experienceSystem.nextLevelExperience}',
+                                                  style: const TextStyle(
+                                                    color: Colors.white, 
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 18,
+                                                  ),
+                                                ),
+                                              ]);
+                                            }
+                                        )
+                                    ),
+                                    ValueListenableBuilder<int>(
+                                      valueListenable: GameState.instance.userInfo.experienceSystem.currentLevelNotifier,
+                                      builder: (context, value, child) =>
+                                        Text(
+                                          '${GameState.instance.userInfo.experienceSystem.currentLevel}⭐',
+                                          style: const TextStyle(
+                                            color: Colors.black, 
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 18,
+                                          ),
+                                        )
+                                    ),
+                                    
+                                  ],
+                                ),
+                              ),
                             )
-                          ],
-                        ),
-                      ),
-                    Container(
-                      margin: EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                        color: Color(0xA0FFFFFF),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: 
-                        IconButton(
-                            icon: const Icon(Icons.settings_outlined),
-                            onPressed: () => {
-                              
-                            },
                           ),
-                      ),
+                            ),
+                      Card(
+                        margin: EdgeInsets.all(5),
+                        color: Color(0xA0FFFFFF),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                        child: 
+                          IconButton(
+                              icon: const Icon(Icons.settings_outlined),
+                              onPressed: () => {
+                                
+                              },
+                            ),
+                        ),
                   ],
                 ),
                 )

@@ -19,6 +19,9 @@ class Food extends Item {
   void use() {
     if(count <= 0) return;
     GameState.instance.gameEventBus.actionHappen(UseItemGameEvent(item: this, count: 1));
+    for(final event in events){
+      GameState.instance.gameEventBus.actionHappen(event);
+    }
     count--;
   }
 

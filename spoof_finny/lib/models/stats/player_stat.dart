@@ -21,10 +21,13 @@ class PlayerStat {
   int? critMinValue;
   @HiveField(6)
   int? critMaxValue;
+  @HiveField(7)
+  String icon;
   ValueNotifier<int> currentValueNotifier = ValueNotifier(0);
 
   PlayerStat({
     required this.name,
+    required this.icon,
     required this.type,
     int currentValue = 0,
     this.maxValue = 100,
@@ -38,6 +41,7 @@ class PlayerStat {
   int get currentValue => _currentValue;
 
   set currentValue(int value){
+    value = value.clamp(critMinValue ?? 100, critMaxValue ?? 100);
     _currentValue = value;
     currentValueNotifier.value = value;
   }

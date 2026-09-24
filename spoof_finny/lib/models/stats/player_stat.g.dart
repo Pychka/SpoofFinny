@@ -18,6 +18,7 @@ class PlayerStatAdapter extends TypeAdapter<PlayerStat> {
     };
     return PlayerStat(
       name: fields[0] as String,
+      icon: fields[7] as String,
       type: fields[1] as StatType,
       maxValue: fields[3] == null ? 100 : (fields[3] as num).toInt(),
       minValue: fields[4] == null ? -100 : (fields[4] as num).toInt(),
@@ -29,7 +30,7 @@ class PlayerStatAdapter extends TypeAdapter<PlayerStat> {
   @override
   void write(BinaryWriter writer, PlayerStat obj) {
     writer
-      ..writeByte(7)
+      ..writeByte(8)
       ..writeByte(0)
       ..write(obj.name)
       ..writeByte(1)
@@ -43,7 +44,9 @@ class PlayerStatAdapter extends TypeAdapter<PlayerStat> {
       ..writeByte(5)
       ..write(obj.critMinValue)
       ..writeByte(6)
-      ..write(obj.critMaxValue);
+      ..write(obj.critMaxValue)
+      ..writeByte(7)
+      ..write(obj.icon);
   }
 
   @override

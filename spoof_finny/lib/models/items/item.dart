@@ -37,6 +37,9 @@ class Item extends GameObject{
   void use(){
     if(count <= 0) return;
     GameState.instance.gameEventBus.actionHappen(EatGameEvent(foodName: name, count: 1));
+    for(final event in events){
+      GameState.instance.gameEventBus.actionHappen(event);
+    }
     count--;
   }
 
@@ -44,5 +47,5 @@ class Item extends GameObject{
     countNotifier.value = countValue;
   }
 
-  Item createNew(int count) => Item(canStack: canStack, assetsFolder: assetsFolder, countValue: countValue, name: name, events: events);
+  Item createNew(int count) => Item(canStack: canStack, assetsFolder: assetsFolder, countValue: count, name: name, events: events);
 }

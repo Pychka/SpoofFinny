@@ -35,25 +35,45 @@ class _FoodCardState extends State<FoodCard> {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 5),
                 child: Column(
+                  spacing: 5,
                   children: [
                     Center(
-                      child: ValueListenableBuilder<int>(
-                        valueListenable: widget.food.countNotifier,
-                        builder: (BuildContext context, int value, Widget? child) { 
-                          return Text(
-                            '${widget.food.name} x${widget.food.count}',
-                            style: TextStyle(fontSize: 20),
-                          );
-                        },
-                      )
+                      child: Text(
+                        widget.food.name,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(fontSize: 20),
+                      ),
                     ),
-                    Image.asset(
-                      'assets/images/${widget.food.assetsFolder}',
-                      fit: BoxFit.contain,
-                      width: 75,
-                      height: 75,
+                    Stack(
+                      children: [
+                        Image.asset(
+                          'assets/images/${widget.food.assetsFolder}',
+                          fit: BoxFit.contain,
+                          width: 75,
+                          height: 75,
+                        ),
+                        Positioned(
+                          right: 0,
+                          bottom: 0,
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                            decoration: BoxDecoration(
+                              color: Colors.black.withValues(alpha: 0.7),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: ValueListenableBuilder<int>(
+                              valueListenable: widget.food.countNotifier,
+                              builder: (BuildContext context, int value, Widget? child) { 
+                                  return Text(
+                                    widget.food.count.toString(),
+                                    style: const TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.bold),
+                                  );
+                              },
+                            )
+                          ),
+                        ),
+                      ],
                     ),
-                    Text('Эффекты:'),
                     const Divider(),
                     SizedBox(
                       height: 60,

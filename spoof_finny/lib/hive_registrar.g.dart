@@ -4,7 +4,12 @@
 
 import 'package:hive_ce/hive_ce.dart';
 import 'package:spoof_finny/models/experience_system.dart';
+import 'package:spoof_finny/models/game_events/change_stat_value_game_event.dart';
+import 'package:spoof_finny/models/game_object.dart';
 import 'package:spoof_finny/models/game_time_manager.dart';
+import 'package:spoof_finny/models/items/food.dart';
+import 'package:spoof_finny/models/items/inventory.dart';
+import 'package:spoof_finny/models/items/item.dart';
 import 'package:spoof_finny/models/money_system/credit_card.dart';
 import 'package:spoof_finny/models/money_system/debit_card.dart';
 import 'package:spoof_finny/models/money_system/money_manager.dart';
@@ -12,20 +17,37 @@ import 'package:spoof_finny/models/money_system/money_storage.dart';
 import 'package:spoof_finny/models/money_system/saving_account.dart';
 import 'package:spoof_finny/models/money_system/wallet.dart';
 import 'package:spoof_finny/models/quests/quest.dart';
+import 'package:spoof_finny/models/quests/quest_state.dart';
+import 'package:spoof_finny/models/shop_system/shop.dart';
+import 'package:spoof_finny/models/shop_system/shop_product.dart';
+import 'package:spoof_finny/models/stats/operator.dart';
+import 'package:spoof_finny/models/stats/player_stat.dart';
 import 'package:spoof_finny/models/stats/stat_manager.dart';
+import 'package:spoof_finny/models/stats/stat_type.dart';
 import 'package:spoof_finny/models/user_info.dart';
 
 extension HiveRegistrar on HiveInterface {
   void registerAdapters() {
+    registerAdapter(ChangeStatValueGameEventAdapter());
     registerAdapter(CreditCardAdapter());
     registerAdapter(DebitCardAdapter());
     registerAdapter(ExperienceSystemAdapter());
+    registerAdapter(FoodAdapter());
+    registerAdapter(GameObjectAdapter());
     registerAdapter(GameTimeManagerAdapter());
+    registerAdapter(InventoryAdapter());
+    registerAdapter(ItemAdapter());
     registerAdapter(MoneyManagerAdapter());
     registerAdapter(MoneyStorageAdapter());
+    registerAdapter(OperatorAdapter());
+    registerAdapter(PlayerStatAdapter());
     registerAdapter(QuestAdapter());
+    registerAdapter(QuestStateAdapter());
     registerAdapter(SavingAccountAdapter());
+    registerAdapter(ShopAdapter());
+    registerAdapter(ShopProductAdapter());
     registerAdapter(StatManagerAdapter());
+    registerAdapter(StatTypeAdapter());
     registerAdapter(UserInfoAdapter());
     registerAdapter(WalletAdapter());
   }
@@ -33,15 +55,26 @@ extension HiveRegistrar on HiveInterface {
 
 extension IsolatedHiveRegistrar on IsolatedHiveInterface {
   void registerAdapters() {
+    registerAdapter(ChangeStatValueGameEventAdapter());
     registerAdapter(CreditCardAdapter());
     registerAdapter(DebitCardAdapter());
     registerAdapter(ExperienceSystemAdapter());
+    registerAdapter(FoodAdapter());
+    registerAdapter(GameObjectAdapter());
     registerAdapter(GameTimeManagerAdapter());
+    registerAdapter(InventoryAdapter());
+    registerAdapter(ItemAdapter());
     registerAdapter(MoneyManagerAdapter());
     registerAdapter(MoneyStorageAdapter());
+    registerAdapter(OperatorAdapter());
+    registerAdapter(PlayerStatAdapter());
     registerAdapter(QuestAdapter());
+    registerAdapter(QuestStateAdapter());
     registerAdapter(SavingAccountAdapter());
+    registerAdapter(ShopAdapter());
+    registerAdapter(ShopProductAdapter());
     registerAdapter(StatManagerAdapter());
+    registerAdapter(StatTypeAdapter());
     registerAdapter(UserInfoAdapter());
     registerAdapter(WalletAdapter());
   }

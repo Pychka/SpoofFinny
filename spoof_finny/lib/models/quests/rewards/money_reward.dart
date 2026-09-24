@@ -4,7 +4,7 @@ import 'package:spoof_finny/models/quests/rewards/quest_reward.dart';
 import 'package:spoof_finny/models/user_info.dart';
 
 class MoneyReward extends QuestReward {
-  final double amount;
+  final int amount;
 
   MoneyReward({
     required this.amount,

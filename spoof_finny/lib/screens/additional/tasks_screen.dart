@@ -37,6 +37,12 @@ class _TasksScreenState extends State<TasksScreen>{
               child: ListenableBuilder(
                 listenable: GameState.instance.questManager,
                 builder: (context, child) {
+                  if(GameState.instance.questManager.activeQuests.isEmpty){
+                    return const SizedBox(
+                      height: 100,
+                      child: Center(child: Text('Заданий нет 😿', style: TextStyle(fontSize: 30),)),
+                    );
+                  }
                   return ListView.builder(
                     shrinkWrap: true,
                     itemCount: GameState.instance.questManager.activeQuests.length,

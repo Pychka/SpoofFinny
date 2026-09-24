@@ -53,11 +53,11 @@ class InteractiveArea extends PositionComponent with TapCallbacks, HasGameRefere
     super.render(canvas);
   }
 
-   @override
+  @override
   void onGameResize(Vector2 size) {
     super.onGameResize(size);
 
-    size = Vector2(
+    this.size = Vector2(
       size.x * _relativeWidth,
       size.y * _relativeHeight,
     );

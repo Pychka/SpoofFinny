@@ -32,37 +32,33 @@ class QuestGoalProgress extends QuestGoal{
 
   @override
   Widget getWidget() {
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(10),
-          child: ValueListenableBuilder<int>(
-            valueListenable: currentValueNotifier,
-            builder: (context, currentExperience, child) {
-              return LinearProgressIndicator(
+    return ValueListenableBuilder<int>(
+      valueListenable: currentValueNotifier,
+      builder: (context, value, child) {
+        return Stack(
+          alignment: Alignment.center,
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: LinearProgressIndicator(
                 value: progress,
                 borderRadius: BorderRadius.circular(10),
                 color: Colors.green,
                 backgroundColor: Colors.grey,
                 minHeight: double.infinity,
-              );
-            },
-          )
-        ),
-        ValueListenableBuilder<int>(
-          valueListenable: currentValueNotifier,
-          builder: (context, value, child) =>
+              ),
+            ),
             Text(
-              '$currentValue/$requiredValue',
-              style: TextStyle(
+              '$value/$requiredValue',
+              style: const TextStyle(
                 color: Colors.white, 
                 fontWeight: FontWeight.bold,
                 fontSize: 12,
               ),
             ),
-        ),
-      ],
+          ],
+        );
+      },
     );
   }
 }

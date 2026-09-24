@@ -21,7 +21,7 @@ class ChangeStatValueGameEvent extends GameEvent {
   });
 
   Widget getWidget() =>
-    Text('${operatorToString()} $value ${stat.name}');
+    Text('${operatorToString()}$value ${stat.icon}');
   
   String operatorToString(){
     switch(operator){

@@ -13,6 +13,7 @@ class _FridgeScreenState extends State<FridgeScreen>{
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
+
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       backgroundColor: Colors.white,
@@ -39,16 +40,27 @@ class _FridgeScreenState extends State<FridgeScreen>{
               child: ListenableBuilder(
                 listenable: GameState.instance.userInfo.inventory,
                 builder: (context, child) {
-                  return Wrap(
-                    spacing: 4.0,
-                    runSpacing: 4.0,
-                    alignment: WrapAlignment.start,
-                    children: GameState.instance.userInfo.inventory.items.whereType<Food>().map((food) {
-                      return SizedBox(
-                        width: 140,
-                        child: FoodCard(food: food)
-                      );
-                    }).toList(),
+                  final foodList = GameState.instance.userInfo.inventory.items.whereType<Food>().toList();
+                  if (foodList.isEmpty) {
+                    return const SizedBox(
+                      height: 100,
+                      child: Center(child: Text('Холодильник пуст 😿', style: TextStyle(fontSize: 30),)),
+                    );
+                  }
+                  return GridView.builder(
+                    shrinkWrap: true,
+                    padding: const EdgeInsets.all(5.0),
+                    physics: const BouncingScrollPhysics(),
+                    gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                      maxCrossAxisExtent: 170,
+                      mainAxisSpacing: 8.0,
+                      crossAxisSpacing: 8.0,
+                      childAspectRatio: 0.49,
+                    ),
+                    itemCount: foodList.length,
+                    itemBuilder: (context, index) {
+                      return FoodCard(food: foodList[index]);
+                    },
                   );
                 },
               ),

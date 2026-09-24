@@ -82,7 +82,7 @@ class ExperienceSystem {
     StorageService.instance.saveUserInfo(GameState.instance.userInfo);
   }
 
-  int _getNextLevelExperience(int level) => ((pow(level + 1, 2) / 2).floor() - level + 2) * factor;
+  int _getNextLevelExperience(int level) => level < 0 ? 0 : ((pow(level + 1, 2) / 2).floor() - level + 2) * factor;
 
   void dispose() {
     onActionHappenSubscription.cancel();

@@ -39,25 +39,25 @@ class GameState {
         countFrames: 8,
         textureSize: Vector2.all(128),
       );
-      info.statManager.addStat(PlayerStat(name: 'Настроение', type: StatType.constant));
-      info.statManager.addStat(PlayerStat(name: 'Сытость', type: StatType.constant));
-      info.statManager.addStat(PlayerStat(name: 'Усталость', type: StatType.constant));
-      info.statManager.addStat(PlayerStat(name: 'Гигиена', type: StatType.constant));
-      info.statManager.addStat(PlayerStat(name: 'Стресс', type: StatType.constant));
+      info.statManager.addStat(PlayerStat(name: 'Настроение', icon: '🙂', type: StatType.constant, currentValue: 0));
+      info.statManager.addStat(PlayerStat(name: 'Сытость', icon: '😋', type: StatType.constant, currentValue: 0));
+      info.statManager.addStat(PlayerStat(name: 'Усталость', icon: '🥱', type: StatType.constant, currentValue: 0));
+      info.statManager.addStat(PlayerStat(name: 'Гигиена', icon: '🧼', type: StatType.constant, currentValue: 0));
+      info.statManager.addStat(PlayerStat(name: 'Стресс',  icon: '🤯', type: StatType.constant, currentValue: 0));
       StorageService.instance.saveUserInfo(info);
-      userInfo.inventory.addItem('Яблоко', 20);
-      userInfo.inventory.addItem('Апельсин', 20);
-      userInfo.inventory.addItem('Банан', 20);
     }
     userInfo = info;
     questManager = QuestManager(activeQuests: [Quest(id: 1, title: 'Время перекусить', description: 'Перекус одна из важных состовляющих дня', rewards: [ExperienceReward(amount: 50), MoneyReward(amount: 50)], goals: [EatQuestGoal(currentValue: 0, requiredValue: 10, title: 'Съешь 10 бананов', itemName: 'Банан')])]);
   
+    initItemFactory();
+    info.inventory.addItem('Яблоко', 10);
+    info.inventory.addItem('Апельсин', 10);
+    info.inventory.addItem('Банан', 10);
     questManager.init(gameEventBus);
     userInfo.experienceSystem.init(gameEventBus);
     userInfo.moneyManager.init(gameEventBus);
     userInfo.statManager.init(gameEventBus);
     userInfo.inventory.init(gameEventBus);
-    initItemFactory();
     _autoSaveTimer = Timer.periodic(const Duration(seconds: 30), (timer) {
       saveUserInfo();
     });
@@ -82,26 +82,17 @@ class GameState {
         countValue: 10,
         events: [
           ChangeStatValueGameEvent(
-            stat: PlayerStat(
-              name: 'Сытость',
-              type: StatType.constant
-            ),
+            stat: userInfo.statManager.getStat('Сытость'),
             value: 2,
             operator: Operator.plus
           ),
           ChangeStatValueGameEvent(
-            stat: PlayerStat(
-              name: 'Гигиена',
-              type: StatType.constant
-            ),
+            stat: userInfo.statManager.getStat('Гигиена'),
             value: 1,
             operator: Operator.minus
           ),
           ChangeStatValueGameEvent(
-            stat: PlayerStat(
-              name: 'Настроение',
-              type: StatType.constant
-            ),
+            stat: userInfo.statManager.getStat('Настроение'),
             value: 3,
             operator: Operator.plus
           ),
@@ -116,26 +107,17 @@ class GameState {
         countValue: 10,
         events: [
           ChangeStatValueGameEvent(
-            stat: PlayerStat(
-              name: 'Сытость',
-              type: StatType.constant
-            ),
+            stat: userInfo.statManager.getStat('Сытость'),
             value: 1,
             operator: Operator.plus
           ),
           ChangeStatValueGameEvent(
-            stat: PlayerStat(
-              name: 'Гигиена',
-              type: StatType.constant
-            ),
+            stat: userInfo.statManager.getStat('Гигиена'),
             value: 2,
             operator: Operator.minus
           ),
           ChangeStatValueGameEvent(
-            stat: PlayerStat(
-              name: 'Настроение',
-              type: StatType.constant
-            ),
+            stat: userInfo.statManager.getStat('Настроение'),
             value: 4,
             operator: Operator.plus
           ),
@@ -150,26 +132,17 @@ class GameState {
         countValue: 10,
         events: [
           ChangeStatValueGameEvent(
-            stat: PlayerStat(
-              name: 'Сытость',
-              type: StatType.constant
-            ),
+            stat: userInfo.statManager.getStat('Сытость'),
             value: 1,
             operator: Operator.plus
           ),
           ChangeStatValueGameEvent(
-            stat: PlayerStat(
-              name: 'Гигиена',
-              type: StatType.constant
-            ),
+            stat: userInfo.statManager.getStat('Гигиена'),
             value: 1,
             operator: Operator.minus
           ),
           ChangeStatValueGameEvent(
-            stat: PlayerStat(
-              name: 'Настроение',
-              type: StatType.constant
-            ),
+            stat: userInfo.statManager.getStat('Настроение'),
             value: 2,
             operator: Operator.plus
           ),

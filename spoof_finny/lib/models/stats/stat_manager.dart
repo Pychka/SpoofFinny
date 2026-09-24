@@ -34,6 +34,7 @@ class StatManager {
         }
       }
       if(gameEvent is ChangeStatValueGameEvent){
+        print('handle');
         _changeStat(gameEvent.stat, gameEvent.value, gameEvent.operator);
       }
     });
@@ -53,6 +54,12 @@ class StatManager {
 
   void addStat(PlayerStat stat){
     stats[stat.name] = stat;
+  }
+
+  PlayerStat getStat(String name){
+    final stat = stats[name];
+    if(stat == null) throw Exception('Not found stat: $name');
+    return stat;
   }
 
   void _changeStat(PlayerStat? stat, int value, Operator operator){
