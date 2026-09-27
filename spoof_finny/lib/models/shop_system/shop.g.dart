@@ -18,23 +18,35 @@ class ShopAdapter extends TypeAdapter<Shop> {
     };
     return Shop(
       name: fields[1] as String,
-      logoPath: fields[2] as String,
+      assetPath: fields[2] as String,
       headerPath: fields[3] as String,
+      relativeX: (fields[4] as num).toDouble(),
+      relativeY: (fields[5] as num).toDouble(),
+      relativeWidth: (fields[6] as num).toDouble(),
+      relativeHeight: (fields[7] as num).toDouble(),
     ).._products = (fields[0] as Map).cast<String, ShopProduct>();
   }
 
   @override
   void write(BinaryWriter writer, Shop obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(8)
       ..writeByte(0)
       ..write(obj._products)
       ..writeByte(1)
       ..write(obj.name)
       ..writeByte(2)
-      ..write(obj.logoPath)
+      ..write(obj.assetPath)
       ..writeByte(3)
-      ..write(obj.headerPath);
+      ..write(obj.headerPath)
+      ..writeByte(4)
+      ..write(obj.relativeX)
+      ..writeByte(5)
+      ..write(obj.relativeY)
+      ..writeByte(6)
+      ..write(obj.relativeWidth)
+      ..writeByte(7)
+      ..write(obj.relativeHeight);
   }
 
   @override

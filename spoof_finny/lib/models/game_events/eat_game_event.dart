@@ -1,11 +1,12 @@
-import 'package:spoof_finny/models/game_events/game_event.dart';
+import 'package:spoof_finny/models/game_events/time_skipped.dart';
 
-class EatGameEvent extends GameEvent {
+class EatGameEvent extends TimeSkipped {
   final String foodName;
   final int count;
 
-  const EatGameEvent({
+  EatGameEvent({
     required this.foodName,
     required this.count,
+    required super.timeChangedEvent,
   });
 }

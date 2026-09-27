@@ -16,7 +16,7 @@ class GameTimeManagerAdapter extends TypeAdapter<GameTimeManager> {
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return GameTimeManager(currentDateTime: fields[0] as DateTime);
+    return GameTimeManager(currentGameTime: fields[0] as GameTime);
   }
 
   @override
@@ -24,7 +24,7 @@ class GameTimeManagerAdapter extends TypeAdapter<GameTimeManager> {
     writer
       ..writeByte(1)
       ..writeByte(0)
-      ..write(obj.currentDateTime);
+      ..write(obj.currentGameTime);
   }
 
   @override

@@ -19,18 +19,20 @@ class ItemAdapter extends TypeAdapter<Item> {
     return Item(
       name: fields[0] as String,
       assetsFolder: fields[4] as String,
+      basePrice: (fields[5] as num).toDouble(),
       events: fields[3] == null
           ? const []
           : (fields[3] as List).cast<ChangeStatValueGameEvent>(),
       countValue: fields[2] == null ? 0 : (fields[2] as num).toInt(),
       canStack: fields[1] == null ? true : fields[1] as bool,
+      timeChangedEvent: fields[99] as GameTimeChangedEvent,
     );
   }
 
   @override
   void write(BinaryWriter writer, Item obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.name)
       ..writeByte(1)
@@ -40,7 +42,11 @@ class ItemAdapter extends TypeAdapter<Item> {
       ..writeByte(3)
       ..write(obj.events)
       ..writeByte(4)
-      ..write(obj.assetsFolder);
+      ..write(obj.assetsFolder)
+      ..writeByte(5)
+      ..write(obj.basePrice)
+      ..writeByte(99)
+      ..write(obj.timeChangedEvent);
   }
 
   @override

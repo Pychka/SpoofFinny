@@ -2,7 +2,8 @@ import 'package:flutter/widgets.dart';
 import 'package:hive_ce/hive_ce.dart';
 import 'package:hive_ce_flutter/hive_flutter.dart';
 import 'package:spoof_finny/models/game_state.dart';
-import 'package:spoof_finny/models/game_time_changed_event.dart';
+import 'package:spoof_finny/models/time_system/game_time.dart';
+import 'package:spoof_finny/models/time_system/game_time_changed_event.dart';
 import 'package:spoof_finny/models/money_system/money_storage.dart';
 part 'saving_account.g.dart';
 
@@ -27,10 +28,10 @@ class SavingAccount extends MoneyStorage{
   SavingAccount({required this.payingDay, super.money = 0.0});
 
   void accrueInterest(GameTimeChangedEvent event){
-    DateTime dateTime = event.from;
-    for(; dateTime.day < event.to.day || dateTime.month < event.to.month; dateTime.add(Duration(days: 1))){
-      debt += money / 100 * (percents / event.from.year % 4 == 0 ? 366 : 365);
-      if(dateTime.day == payingDay){
+    GameTime time = event.from;
+    for(; time.day < event.to.day || time.day - event.to.day >= 30; time.addDays(1)){
+      debt += money / 100 * (percents / 365);
+      if(time.day == payingDay){
         money += debt;
         debt = 0;
       }

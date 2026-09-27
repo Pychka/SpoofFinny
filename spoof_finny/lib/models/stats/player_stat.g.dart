@@ -17,35 +17,38 @@ class PlayerStatAdapter extends TypeAdapter<PlayerStat> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return PlayerStat(
-      name: fields[0] as String,
-      icon: fields[7] as String,
-      type: fields[1] as StatType,
-      maxValue: fields[3] == null ? 100 : (fields[3] as num).toInt(),
-      minValue: fields[4] == null ? -100 : (fields[4] as num).toInt(),
-      critMinValue: fields[5] == null ? -50 : (fields[5] as num?)?.toInt(),
-      critMaxValue: (fields[6] as num?)?.toInt(),
-    ).._currentValue = (fields[2] as num).toInt();
+      displayedName: fields[0] as String,
+      name: fields[1] as String,
+      icon: fields[8] as String,
+      type: fields[2] as StatType,
+      maxValue: fields[4] == null ? 100 : (fields[4] as num).toInt(),
+      minValue: fields[5] == null ? -100 : (fields[5] as num).toInt(),
+      critMinValue: fields[6] == null ? -100 : (fields[6] as num?)?.toInt(),
+      critMaxValue: (fields[7] as num?)?.toInt(),
+    ).._currentValue = (fields[3] as num).toInt();
   }
 
   @override
   void write(BinaryWriter writer, PlayerStat obj) {
     writer
-      ..writeByte(8)
+      ..writeByte(9)
       ..writeByte(0)
-      ..write(obj.name)
+      ..write(obj.displayedName)
       ..writeByte(1)
-      ..write(obj.type)
+      ..write(obj.name)
       ..writeByte(2)
-      ..write(obj._currentValue)
+      ..write(obj.type)
       ..writeByte(3)
-      ..write(obj.maxValue)
+      ..write(obj._currentValue)
       ..writeByte(4)
-      ..write(obj.minValue)
+      ..write(obj.maxValue)
       ..writeByte(5)
-      ..write(obj.critMinValue)
+      ..write(obj.minValue)
       ..writeByte(6)
-      ..write(obj.critMaxValue)
+      ..write(obj.critMinValue)
       ..writeByte(7)
+      ..write(obj.critMaxValue)
+      ..writeByte(8)
       ..write(obj.icon);
   }
 

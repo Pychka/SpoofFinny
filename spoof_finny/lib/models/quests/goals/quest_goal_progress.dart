@@ -1,20 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:hive_ce_flutter/hive_flutter.dart';
 import 'package:spoof_finny/models/quests/goals/quest_goal.dart';
+import 'package:spoof_finny/models/time_system/game_time_changed_event.dart';
+part 'quest_goal_progress.g.dart';
 
+@HiveType(typeId: 30)
 class QuestGoalProgress extends QuestGoal{
   
   QuestGoalProgress({
-    required this._currentValue,
+    int currentValue = 0,
     required this.requiredValue,
     required this.itemName,
-    required super.title
-  }){
-    currentValue = _currentValue;
-  }
-  
-  final String itemName;
+    required super.title,
+    required super.timeChangedEvent,
+  }) : _currentValue = currentValue;
+
+  @HiveField(1)
+  String itemName;
+  @HiveField(2)
   int _currentValue;
-  final int requiredValue;
+  @HiveField(3)
+  int requiredValue;
   ValueNotifier<int> currentValueNotifier = ValueNotifier(0);
 
   int get currentValue => _currentValue;

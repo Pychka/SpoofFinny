@@ -3,6 +3,7 @@ import 'package:spoof_finny/models/game_events/use_item_game_event.dart';
 import 'package:spoof_finny/models/game_state.dart';
 import 'package:spoof_finny/models/items/item.dart';
 import 'package:spoof_finny/models/game_events/change_stat_value_game_event.dart';
+import 'package:spoof_finny/models/time_system/game_time_changed_event.dart';
 part 'food.g.dart';
 
 @HiveType(typeId: 24)
@@ -12,12 +13,15 @@ class Food extends Item {
     required super.assetsFolder,
     super.events = const [],
     super.countValue = 0,
-    super.canStack = true
+    super.canStack = true,
+    required super.basePrice,
+    required super.timeChangedEvent,
     });
-  
+
   @override
   void use() {
     if(count <= 0) return;
+    GameState.instance.gameEventBus.actionHappen(timeChangedEvent);
     GameState.instance.gameEventBus.actionHappen(UseItemGameEvent(item: this, count: 1));
     for(final event in events){
       GameState.instance.gameEventBus.actionHappen(event);
@@ -26,5 +30,5 @@ class Food extends Item {
   }
 
   @override
-  Item createNew(int count) => Food(canStack: canStack, assetsFolder: assetsFolder, countValue: countValue, name: name, events: events);
+  Item createNew(int needableCount) => Food(canStack: canStack, basePrice: basePrice, assetsFolder: assetsFolder, countValue: needableCount, name: name, events: events, timeChangedEvent: timeChangedEvent);
 }

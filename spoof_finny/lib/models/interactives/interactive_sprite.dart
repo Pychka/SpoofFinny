@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'dart:ui' as ui;
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +12,8 @@ class InteractiveSprite extends SpriteComponent with TapCallbacks, HasGameRefere
   final double _relativeY;
   final double _relativeWidth;
   final double _relativeHeight;
+  ui.Image? _image;
+  List<int>? _pixelData;
 
   InteractiveSprite({
     required this._relativeX,
@@ -26,7 +28,14 @@ class InteractiveSprite extends SpriteComponent with TapCallbacks, HasGameRefere
   @override
   Future<void> onLoad() async {
     super.onLoad();
-    sprite = Sprite(await game.images.load(assetPath));
+    final image = await game.images.load(assetPath);
+    _image = image;
+    sprite = Sprite(image);
+
+    final byteData = await image.toByteData(format: ui.ImageByteFormat.rawRgba);
+    if (byteData != null) {
+      _pixelData = byteData.buffer.asUint8List();
+    }
   }
 
   @override
@@ -48,10 +57,25 @@ class InteractiveSprite extends SpriteComponent with TapCallbacks, HasGameRefere
     _isPressed = false; 
   }
 
+  @override
+  bool containsLocalPoint(Vector2 point) {
+    if (!super.containsLocalPoint(point) || _image == null || _pixelData == null) {
+      return false;
+    }
+
+    final int pixelX = ((point.x / size.x) * _image!.width).floor().clamp(0, _image!.width - 1);
+    final int pixelY = ((point.y / size.y) * _image!.height).floor().clamp(0, _image!.height - 1);
+
+    final int pixelIndex = (pixelY * _image!.width + pixelX) * 4;
+    final int alpha = _pixelData![pixelIndex + 3];
+
+    return alpha > 10;
+  }
+
   @override void render(Canvas canvas) {
     if (_isPressed) {
       paint.colorFilter = ColorFilter.mode(
-        Color.fromARGB(40, 255, 255, 255),
+        Color.fromARGB(80, 255, 255, 255),
         BlendMode.srcATop,
       );
     } else {

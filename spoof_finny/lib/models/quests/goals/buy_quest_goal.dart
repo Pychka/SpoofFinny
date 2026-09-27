@@ -1,21 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:hive_ce_flutter/hive_flutter.dart';
 import 'package:spoof_finny/models/game_events/game_event.dart';
 import 'package:spoof_finny/models/quests/goals/quest_goal_progress.dart';
-
+import 'package:spoof_finny/models/time_system/game_time_changed_event.dart';
 import '../../game_events/buy_game_event.dart';
+part 'buy_quest_goal.g.dart';
 
+@HiveType(typeId: 33)
 class BuyQuestGoal extends QuestGoalProgress {
+  @HiveField(4)
   double _totalPrice;
+  @HiveField(5)
   double requiredTotalPrice;
   ValueNotifier<double> totalPriceNotifier = ValueNotifier(0.0);
   BuyQuestGoal({
-    required this._totalPrice,
+    double totalPrice = 0,
     required this.requiredTotalPrice,
-    required super.currentValue,
+    super.currentValue,
     required super.requiredValue,
     required super.title,
-    required super.itemName
-  });
+    required super.itemName,
+    required super.timeChangedEvent
+  }) : _totalPrice = totalPrice;
 
 
   @override

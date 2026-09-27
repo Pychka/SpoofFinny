@@ -16,7 +16,8 @@ class StatManagerAdapter extends TypeAdapter<StatManager> {
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return StatManager(stats: (fields[0] as Map).cast<String, PlayerStat>());
+    return StatManager()
+      .._stats = (fields[0] as Map).cast<String, PlayerStat>();
   }
 
   @override
@@ -24,7 +25,7 @@ class StatManagerAdapter extends TypeAdapter<StatManager> {
     writer
       ..writeByte(1)
       ..writeByte(0)
-      ..write(obj.stats);
+      ..write(obj._stats);
   }
 
   @override

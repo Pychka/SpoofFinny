@@ -8,31 +8,34 @@ part 'player_stat.g.dart';
 @HiveType(typeId: 16)
 class PlayerStat {
   @HiveField(0)
-  String name;
+  String displayedName;
   @HiveField(1)
-  final StatType type;
+  String name;
   @HiveField(2)
-  int _currentValue;
+  final StatType type;
   @HiveField(3)
-  int maxValue;
+  int _currentValue;
   @HiveField(4)
-  int minValue;
+  int maxValue;
   @HiveField(5)
-  int? critMinValue;
+  int minValue;
   @HiveField(6)
-  int? critMaxValue;
+  int? critMinValue;
   @HiveField(7)
+  int? critMaxValue;
+  @HiveField(8)
   String icon;
   ValueNotifier<int> currentValueNotifier = ValueNotifier(0);
 
   PlayerStat({
+    required this.displayedName,
     required this.name,
     required this.icon,
     required this.type,
     int currentValue = 0,
     this.maxValue = 100,
     this.minValue = -100,
-    this.critMinValue = -50,
+    this.critMinValue = -100,
     this.critMaxValue,
   }) : _currentValue = currentValue {
     currentValueNotifier.value = currentValue;
@@ -41,17 +44,19 @@ class PlayerStat {
   int get currentValue => _currentValue;
 
   set currentValue(int value){
-    value = value.clamp(critMinValue ?? 100, critMaxValue ?? 100);
+    value = value.clamp(minValue, maxValue);
     _currentValue = value;
     currentValueNotifier.value = value;
   }
+
+  bool get hasStat => state() == StatValueState.critMax;
 
   StatValueState state(){
     if(critMinValue != null && currentValue <= critMinValue!){
       return StatValueState.critMin;
     }
     if(critMaxValue != null && currentValue >= critMaxValue!){
-      return StatValueState.critMin;
+      return StatValueState.critMax;
     }
     return StatValueState.normal;
   }

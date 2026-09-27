@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:spoof_finny/models/stats/player_stat.dart';
+import 'package:spoof_finny/models/stats/stat_type.dart';
 
 class StatCard extends StatefulWidget {
   final PlayerStat playerStat;
@@ -30,7 +31,7 @@ class _StatCardState extends State<StatCard> {
             SizedBox(
               width: 120,
               child: Text(
-                widget.playerStat.name,
+                widget.playerStat.displayedName,
                 style: TextStyle(fontSize: 20),
               ),
             ),
@@ -39,29 +40,33 @@ class _StatCardState extends State<StatCard> {
               builder: (BuildContext context, value, Widget? child) { 
                 double percent = this.percent(widget.playerStat);
                 return Expanded(
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: LinearProgressIndicator(
-                          value: percent,
-                          borderRadius: BorderRadius.circular(10),
-                          color: percent >= 0.5 ? Colors.green : percent >= 0.25 ? Colors.amberAccent : Colors.redAccent,
-                          backgroundColor: Colors.grey,
-                          minHeight: 30.0,
-                        ),
-                      ),
-                      Text(
-                        '${widget.playerStat.currentValue}/${percent >= 0.5 ? widget.playerStat.maxValue : widget.playerStat.minValue}',
-                        style: const TextStyle(
-                          color: Colors.white, 
-                          fontWeight: FontWeight.bold,
-                          fontSize: 12,
-                        ),
-                      ),
-                    ],
-                  )
+                  child: widget.playerStat.type == StatType.temporary ? const Text('✔️') : ValueListenableBuilder(
+                    valueListenable: widget.playerStat.currentValueNotifier,
+                    builder:(context, value, child) {
+                      return Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: LinearProgressIndicator(
+                              value: percent,
+                              borderRadius: BorderRadius.circular(10),
+                              color: percent >= 0.5 ? Colors.green : percent >= 0.25 ? Colors.amberAccent : Colors.redAccent,
+                              backgroundColor: Colors.grey,
+                              minHeight: 30.0,
+                            ),
+                          ),
+                          Text(
+                            '${widget.playerStat.currentValue}/${percent >= 0.5 ? widget.playerStat.maxValue : widget.playerStat.minValue}',
+                            style: const TextStyle(
+                              color: Colors.white, 
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
+                      );
+                  },)
                 );
               },
             )

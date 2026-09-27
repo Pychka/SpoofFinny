@@ -33,4 +33,14 @@ flutter:
     - assets/ # Добавляй здесь пути до папок с ассетами. Относительно папки spoof_finny
     - assets/images/
     - assets/images/hallway/
-    - assets/images/kitty/
+    - assets/images/kitchen/
+    - assets/images/bathroom/
+    - assets/images/bedroom/
+    - assets/images/livingroom/
+    - assets/images/player/kitty/
+    - assets/images/player/kitty/child/
+    - assets/images/player/kitty/teen/
+    - assets/images/player/kitty/adult/
+    - assets/images/food/
+    - assets/images/food/fruits/
+    - assets/images/map/

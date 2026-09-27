@@ -24,13 +24,15 @@ class FoodAdapter extends TypeAdapter<Food> {
           : (fields[3] as List).cast<ChangeStatValueGameEvent>(),
       countValue: fields[2] == null ? 0 : (fields[2] as num).toInt(),
       canStack: fields[1] == null ? true : fields[1] as bool,
+      basePrice: (fields[5] as num).toDouble(),
+      timeChangedEvent: fields[99] as GameTimeChangedEvent,
     );
   }
 
   @override
   void write(BinaryWriter writer, Food obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.name)
       ..writeByte(1)
@@ -40,7 +42,11 @@ class FoodAdapter extends TypeAdapter<Food> {
       ..writeByte(3)
       ..write(obj.events)
       ..writeByte(4)
-      ..write(obj.assetsFolder);
+      ..write(obj.assetsFolder)
+      ..writeByte(5)
+      ..write(obj.basePrice)
+      ..writeByte(99)
+      ..write(obj.timeChangedEvent);
   }
 
   @override

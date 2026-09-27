@@ -2,7 +2,8 @@ import 'package:flutter/widgets.dart';
 import 'package:hive_ce/hive_ce.dart';
 import 'package:hive_ce_flutter/hive_flutter.dart';
 import 'package:spoof_finny/models/game_state.dart';
-import 'package:spoof_finny/models/game_time_changed_event.dart';
+import 'package:spoof_finny/models/time_system/game_time.dart';
+import 'package:spoof_finny/models/time_system/game_time_changed_event.dart';
 import 'package:spoof_finny/models/money_system/money_storage.dart';
 
 part 'credit_card.g.dart';
@@ -16,7 +17,7 @@ class CreditCard extends MoneyStorage{
   final double limit = 20000.0;
   @HiveField(3)
   final double dailyInterestRate = 10.0;
-  final DateTime lastPayDate =  DateTime.fromMicrosecondsSinceEpoch(0).add(Duration(days: 100000000));
+  final GameTime lastPayDate = GameTime(totalSecondsValue: 0);
 
   CreditCard({super.money = 0.0});
 
@@ -29,8 +30,8 @@ class CreditCard extends MoneyStorage{
   }
 
   void accrueInterest(GameTimeChangedEvent event){
-    if(event.isLess(lastPayDate, event.to) && lastPayDate.difference(event.to).inDays / 30 > 0){
-      debt += (debt + (money < 0 ? money * -1 : 0)) * (lastPayDate.difference(event.to).inDays / 30);
+    if(lastPayDate.totalSeconds < event.to.totalSeconds && (event.to.day - lastPayDate.day) / 30 > 0){
+      debt += (debt + (money < 0 ? money * -1 : 0)) * (event.to.day - lastPayDate.day) / 30 ;
     }
   }
 

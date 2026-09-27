@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:hive_ce_flutter/hive_ce_flutter.dart';
 import 'package:spoof_finny/models/game_events/game_event.dart';
+import 'package:spoof_finny/models/time_system/game_time_changed_event.dart';
+import 'package:spoof_finny/models/game_events/time_skipped.dart';
+part 'quest_goal.g.dart';
 
-class QuestGoal{
+@HiveType(typeId: 29)
+class QuestGoal extends TimeSkipped{
+  @HiveField(0)
   String title;  
 
   QuestGoal({
-    required this.title
+    required this.title,
+    required super.timeChangedEvent
   });
 
   bool isCompleted(){

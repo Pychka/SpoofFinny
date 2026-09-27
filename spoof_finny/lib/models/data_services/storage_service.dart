@@ -1,7 +1,9 @@
 import 'package:hive_ce_flutter/hive_flutter.dart';
 import 'package:spoof_finny/models/experience_system.dart';
 import 'package:spoof_finny/models/game_events/change_stat_value_game_event.dart';
-import 'package:spoof_finny/models/game_time_manager.dart';
+import 'package:spoof_finny/models/time_system/game_time.dart';
+import 'package:spoof_finny/models/time_system/game_time_changed_event.dart';
+import 'package:spoof_finny/models/time_system/game_time_manager.dart';
 import 'package:spoof_finny/models/items/food.dart';
 import 'package:spoof_finny/models/items/inventory.dart';
 import 'package:spoof_finny/models/items/item.dart';
@@ -10,6 +12,9 @@ import 'package:spoof_finny/models/money_system/debit_card.dart';
 import 'package:spoof_finny/models/money_system/money_manager.dart';
 import 'package:spoof_finny/models/money_system/saving_account.dart';
 import 'package:spoof_finny/models/money_system/wallet.dart';
+import 'package:spoof_finny/models/shop_system/shop.dart';
+import 'package:spoof_finny/models/shop_system/shop_manager.dart';
+import 'package:spoof_finny/models/shop_system/shop_product.dart';
 import 'package:spoof_finny/models/stats/operator.dart';
 import 'package:spoof_finny/models/stats/player_stat.dart';
 import 'package:spoof_finny/models/stats/stat_manager.dart';
@@ -47,6 +52,11 @@ class StorageService {
     Hive.registerAdapter(ChangeStatValueGameEventAdapter());
     Hive.registerAdapter(OperatorAdapter());
     Hive.registerAdapter(FoodAdapter());
+    Hive.registerAdapter(ShopManagerAdapter());
+    Hive.registerAdapter(ShopProductAdapter());
+    Hive.registerAdapter(ShopAdapter());
+    Hive.registerAdapter(GameTimeAdapter());
+    Hive.registerAdapter(GameTimeChangedEventAdapter());
     _userBox = await Hive.openBox<UserInfo>(_boxName);
   }
 

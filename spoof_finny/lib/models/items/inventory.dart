@@ -22,7 +22,7 @@ class Inventory extends ChangeNotifier {
   void addItem(String name, int count){
     final oldItem = _items[name];
     if(oldItem == null){
-      _items[name] = ItemFactory.instance.get(name, count);
+      _items[name] = ItemFactory.instance.get(name, count)..count = count;
       notifyListeners();
     }
     else{

@@ -44,7 +44,7 @@ class KitchenScreen extends FlameGame with HasGameReference {
     add(fridge);
     final goBack = InteractiveArea(
       onTapAction: () {
-        changeScreen(1);
+        changeScreen(2);
       },
       relativeHeight: 0.2,
       relativeWidth: 0.88,

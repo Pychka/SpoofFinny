@@ -7,11 +7,18 @@ import 'package:spoof_finny/models/money_system/money_storage.dart';
 import 'package:spoof_finny/models/money_system/wallet.dart';
 import 'package:spoof_finny/models/player.dart';
 import 'package:spoof_finny/models/user_info.dart';
+import 'package:spoof_finny/screens/main/start_screen.dart';
 import 'screens/main/main_screen.dart';
+import 'package:flutter/services.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await StorageService.instance.init();
+  await SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
   runApp(const MainApp());
 }
 
@@ -52,7 +59,7 @@ class MainApp extends StatelessWidget {
         Locale('ru', 'RU'),
         Locale('en', 'US'),
       ],
-      home: const MainScreen(),
+      home: GameState.instance.userInfo.isInitialized ? const MainScreen() : const StartScreen(),
     );
   }
 }

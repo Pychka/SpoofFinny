@@ -19,34 +19,31 @@ class UserInfoAdapter extends TypeAdapter<UserInfo> {
     return UserInfo(
         timeManager: fields[0] as GameTimeManager,
         localeCode: fields[1] as String,
-        assetsPath: fields[2] as String,
-        countFrames: (fields[4] as num).toInt(),
-        textureSize: fields[5] as Vector2,
+        playerIdValue: fields[2] as String,
         petName: fields[3] as String,
         playerName: fields[6] as String,
+        age: (fields[13] as num).toInt(),
+        isInitialized: fields[14] as bool,
         experienceSystem: fields[8] as ExperienceSystem?,
       )
       ..moneyManager = fields[7] as MoneyManager
       ..inventory = fields[9] as Inventory
-      ..statManager = fields[10] as StatManager;
+      ..statManager = fields[10] as StatManager
+      ..shopManager = fields[11] as ShopManager;
   }
 
   @override
   void write(BinaryWriter writer, UserInfo obj) {
     writer
-      ..writeByte(11)
+      ..writeByte(12)
       ..writeByte(0)
       ..write(obj.timeManager)
       ..writeByte(1)
       ..write(obj.localeCode)
       ..writeByte(2)
-      ..write(obj.assetsPath)
+      ..write(obj.playerIdValue)
       ..writeByte(3)
       ..write(obj.petName)
-      ..writeByte(4)
-      ..write(obj.countFrames)
-      ..writeByte(5)
-      ..write(obj.textureSize)
       ..writeByte(6)
       ..write(obj.playerName)
       ..writeByte(7)
@@ -56,7 +53,13 @@ class UserInfoAdapter extends TypeAdapter<UserInfo> {
       ..writeByte(9)
       ..write(obj.inventory)
       ..writeByte(10)
-      ..write(obj.statManager);
+      ..write(obj.statManager)
+      ..writeByte(11)
+      ..write(obj.shopManager)
+      ..writeByte(13)
+      ..write(obj.age)
+      ..writeByte(14)
+      ..write(obj.isInitialized);
   }
 
   @override

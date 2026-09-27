@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:spoof_finny/models/game_state.dart';
+import 'package:spoof_finny/models/stats/stat_type.dart';
 import 'package:spoof_finny/screens/elements/stat_card.dart';
 
 class StatsScreen extends StatefulWidget{
@@ -11,7 +12,6 @@ class StatsScreen extends StatefulWidget{
 class _StatsScreenState extends State<StatsScreen>{
   @override
   Widget build(BuildContext context) {
-    final stats = GameState.instance.userInfo.statManager.stats.values.toList();
     final screenHeight = MediaQuery.of(context).size.height;
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
@@ -34,14 +34,30 @@ class _StatsScreenState extends State<StatsScreen>{
             const Divider(),
             ConstrainedBox(
               constraints: BoxConstraints(minHeight: screenHeight * 0.2, maxHeight: screenHeight * 0.7),
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: stats.length,
-                itemBuilder: (context, index) {
-                  final stat = stats[index];
-                  return StatCard(playerStat: stat);
+              child: ListenableBuilder(
+                listenable: GameState.instance.userInfo.statManager,
+                builder: (context, child) {
+                  final stats = GameState.instance.userInfo.statManager.stats.where(
+                    (stat) => 
+                    stat.type == StatType.constant
+                      || stat.hasStat).toList();
+                  if(stats.isEmpty){
+                    return const SizedBox(
+                      height: 100,
+                      child: Center(child: Text('Статов нет 😿', style: TextStyle(fontSize: 30),)),
+                    );
+                  }
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    physics: const ClampingScrollPhysics(), 
+                    itemCount: stats.length,
+                    itemBuilder: (context, index) {
+                      final stat = stats[index];
+                      return StatCard(playerStat: stat);
+                    },
+                  );
                 },
-              )
+              ),
             )
           ],
         )

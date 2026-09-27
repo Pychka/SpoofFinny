@@ -1,12 +1,11 @@
-
 import 'dart:async';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:spoof_finny/models/game_state.dart';
 import 'package:spoof_finny/models/interactives/interactive_area.dart';
 
-class HomeScreen extends FlameGame with HasGameReference {
-  HomeScreen({required this.changeScreen});
+class LivingroomScreen extends FlameGame with HasGameReference {
+  LivingroomScreen({required this.changeScreen});
 
   final Function(int) changeScreen;
   @override
@@ -15,7 +14,7 @@ class HomeScreen extends FlameGame with HasGameReference {
 
     // Wait assets :)
     final background = SpriteComponent()
-      ..sprite = await loadSprite("hallway/background.png")
+      ..sprite = await loadSprite("livingroom/background.png")
       ..size = size;
     add(background);
 
@@ -23,15 +22,16 @@ class HomeScreen extends FlameGame with HasGameReference {
 
     add(player);    
 
-    final goKitchen = InteractiveArea(
+    final goBack = InteractiveArea(
       onTapAction: () {
         changeScreen(2);
       },
-      relativeHeight: 0.5,
-      relativeWidth: 0.125,
+      relativeHeight: 0.2,
+      relativeWidth: 0.88,
       relativeX: 0.06,
-      relativeY: 0.15,
+      relativeY: 0.8,
     );
-    add(goKitchen);
+    add(goBack);
+    
   }
 }

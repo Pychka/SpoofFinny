@@ -3,7 +3,7 @@ import 'package:hive_ce_flutter/hive_ce_flutter.dart';
 import 'package:spoof_finny/models/items/item.dart';
 part 'shop_product.g.dart';
 
-@HiveType(typeId: 24)
+@HiveType(typeId: 27)
 class ShopProduct {
   @HiveField(0)
   int _stockCount;

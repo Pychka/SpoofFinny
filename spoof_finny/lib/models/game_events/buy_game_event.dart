@@ -1,14 +1,14 @@
-import 'package:spoof_finny/models/game_events/game_event.dart';
+import 'package:spoof_finny/models/game_events/time_skipped.dart';
 
-class BuyGameEvent extends GameEvent {
+class BuyGameEvent extends TimeSkipped {
   final String itemName;
   final int count;
   final double totalPrice;
 
-  const BuyGameEvent({
+  BuyGameEvent({
     required this.itemName,
     required this.count,
-    required this.totalPrice,
+    required this.totalPrice, required super.timeChangedEvent,
   });
 
 }

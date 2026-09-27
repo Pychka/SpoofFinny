@@ -2,15 +2,17 @@ import 'package:flutter/widgets.dart';
 import 'package:hive_ce/hive_ce.dart';
 import 'package:hive_ce_flutter/hive_flutter.dart';
 import 'package:spoof_finny/models/game_events/game_event.dart';
+import 'package:spoof_finny/models/game_events/time_skipped.dart';
 import 'package:spoof_finny/models/game_state.dart';
 import 'package:spoof_finny/models/quests/goals/quest_goal.dart';
 import 'package:spoof_finny/models/quests/quest_state.dart';
 import 'package:spoof_finny/models/quests/rewards/quest_reward.dart';
+import 'package:spoof_finny/models/time_system/game_time_changed_event.dart';
 
 part 'quest.g.dart';
 
 @HiveType(typeId: 11)
-class Quest {
+class Quest extends TimeSkipped {
   @HiveField(0)
   String title;
   @HiveField(1)
@@ -30,12 +32,15 @@ class Quest {
     required this.description,
     this.rewards = const [],
     this.goals = const [],
-    this.state = QuestState.active
+    this.state = QuestState.active,
+    required super.timeChangedEvent
   }){
     completedGoals = goals.where((questGoal) => questGoal.isCompleted()).length;
   }
 
   void onEvent(GameEvent gameEvent){
+    if(state != QuestState.active) return;
+
     int currentCompletedGoals = _completedGoals;
     int completedGoals = 0;
     for(final goal in goals){

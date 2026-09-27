@@ -27,13 +27,14 @@ class QuestAdapter extends TypeAdapter<Quest> {
           ? const []
           : (fields[4] as List).cast<QuestGoal>(),
       state: fields[2] == null ? QuestState.active : fields[2] as QuestState,
+      timeChangedEvent: fields[99] as GameTimeChangedEvent,
     );
   }
 
   @override
   void write(BinaryWriter writer, Quest obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.title)
       ..writeByte(1)
@@ -45,7 +46,9 @@ class QuestAdapter extends TypeAdapter<Quest> {
       ..writeByte(5)
       ..write(obj.id)
       ..writeByte(30)
-      ..write(obj.rewards);
+      ..write(obj.rewards)
+      ..writeByte(99)
+      ..write(obj.timeChangedEvent);
   }
 
   @override
