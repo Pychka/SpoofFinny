@@ -1,8 +1,19 @@
 import 'package:hive_ce_flutter/hive_flutter.dart';
 import 'package:spoof_finny/models/experience_system.dart';
 import 'package:spoof_finny/models/game_events/change_stat_value_game_event.dart';
+import 'package:spoof_finny/models/quests/goals/buy_quest_goal.dart';
+import 'package:spoof_finny/models/quests/goals/eat_quest_goal.dart';
 import 'package:spoof_finny/models/quests/goals/exp_quest_goal.dart';
 import 'package:spoof_finny/models/quests/goals/money_quest_goal.dart';
+import 'package:spoof_finny/models/quests/quest.dart';
+import 'package:spoof_finny/models/quests/quest_manager.dart';
+import 'package:spoof_finny/models/quests/quest_state.dart';
+import 'package:spoof_finny/models/quests/rewards/experience_reward.dart';
+import 'package:spoof_finny/models/quests/rewards/item_reward.dart';
+import 'package:spoof_finny/models/quests/rewards/money_reward.dart';
+import 'package:spoof_finny/models/quests/rewards/quest_reward.dart';
+import 'package:spoof_finny/models/quests/rewards/stat_reward.dart';
+import 'package:spoof_finny/models/quests/timed_quest.dart';
 import 'package:spoof_finny/models/time_system/game_time.dart';
 import 'package:spoof_finny/models/time_system/game_time_changed_event.dart';
 import 'package:spoof_finny/models/time_system/game_time_manager.dart';
@@ -61,6 +72,19 @@ class StorageService {
     Hive.registerAdapter(GameTimeChangedEventAdapter());
     Hive.registerAdapter(MoneyQuestGoalAdapter());
     Hive.registerAdapter(ExpQuestGoalAdapter());
+    Hive.registerAdapter(EatQuestGoalAdapter());
+    Hive.registerAdapter(QuestStateAdapter());
+    Hive.registerAdapter(BuyQuestGoalAdapter());
+
+    Hive.registerAdapter(ExperienceRewardAdapter());
+    Hive.registerAdapter(ItemRewardAdapter());
+    Hive.registerAdapter(MoneyRewardAdapter());
+    Hive.registerAdapter(StatRewardAdapter());
+    Hive.registerAdapter(QuestRewardAdapter());
+    Hive.registerAdapter(QuestAdapter());
+    Hive.registerAdapter(TimedQuestAdapter());
+
+    Hive.registerAdapter(QuestManagerAdapter());
     _userBox = await Hive.openBox<UserInfo>(_boxName);
   }
 

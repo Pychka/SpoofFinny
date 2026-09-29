@@ -8,7 +8,7 @@ part of 'timed_quest.dart';
 
 class TimedQuestAdapter extends TypeAdapter<TimedQuest> {
   @override
-  final typeId = 32;
+  final typeId = 48;
 
   @override
   TimedQuest read(BinaryReader reader) {

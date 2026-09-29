@@ -1,4 +1,5 @@
 import 'package:flame/components.dart';
+import 'package:spoof_finny/models/pet_sprites.dart';
 import 'package:spoof_finny/models/player.dart';
 
 class PlayerFactory {
@@ -25,11 +26,147 @@ class PlayerFactory {
   void init(){
     register(
       Player(
-        countFrames: 8,
+        countFrames: 1,
         textureSize: Vector2(128, 128),
-        assetsFolder: 'kitty/',
-        stageFolders: ['child/', 'teen/', 'adult/'],
-        name: 'kitty'
+        name: 'Зелённый котик',
+        sprites: [
+          PetSprites(
+            width: 548,
+            height: 498,
+            path: 'kitty/child/green/green_cat'
+          ),
+          PetSprites(
+            width: 680,
+            height: 606,
+            path: 'kitty/teen/green/green_cat'
+          ),
+          PetSprites(
+            width: 850,
+            height: 874,
+            path: 'kitty/adult/green/green_cat'
+          ),
+        ]
+      )
+    );
+    register(
+      Player(
+        countFrames: 1,
+        textureSize: Vector2(128, 128),
+        name: 'Серый котик',
+        sprites: [
+          PetSprites(
+            width: 548,
+            height: 498,
+            path: 'kitty/child/grey/grey_cat'
+          ),
+          PetSprites(
+            width: 680,
+            height: 606,
+            path: 'kitty/teen/grey/grey_cat'
+          ),
+          PetSprites(
+            width: 850,
+            height: 874,
+            path: 'kitty/adult/grey/grey_cat'
+          ),
+        ]
+      )
+    );
+    register(
+      Player(
+        countFrames: 1,
+        textureSize: Vector2(128, 128),
+        name: 'Белый котик',
+        sprites: [
+          PetSprites(
+            width: 548,
+            height: 498,
+            path: 'kitty/child/white/white_cat'
+          ),
+          PetSprites(
+            width: 680,
+            height: 606,
+            path: 'kitty/teen/white/white_cat'
+          ),
+          PetSprites(
+            width: 850,
+            height: 874,
+            path: 'kitty/adult/white/white_cat'
+          ),
+        ]
+      )
+    );
+
+    register(
+      Player(
+        countFrames: 1,
+        textureSize: Vector2(128, 128),
+        name: 'Зефирка',
+        sprites: [
+          PetSprites(
+            width: 544,
+            height: 556,
+            path: 'dog/child/blond/blond_dog'
+          ),
+          PetSprites(
+            width: 628,
+            height: 626,
+            path: 'dog/teen/blond/blond_dog'
+          ),
+          PetSprites(
+            width: 728,
+            height: 728,
+            path: 'dog/adult/blond/blond_dog'
+          ),
+        ]
+      )
+    );
+    register(
+      Player(
+        countFrames: 1,
+        textureSize: Vector2(128, 128),
+        name: 'Эклер',
+        sprites: [
+          PetSprites(
+            width: 544,
+            height: 556,
+            path: 'dog/child/brown/brown_dog'
+          ),
+          PetSprites(
+            width: 628,
+            height: 626,
+            path: 'dog/teen/brown/brown_dog'
+          ),
+          PetSprites(
+            width: 728,
+            height: 728,
+            path: 'dog/adult/brown/brown_dog'
+          ),
+        ]
+      )
+    );
+    register(
+      Player(
+        countFrames: 1,
+        textureSize: Vector2(128, 128),
+        name: 'Топпинг',
+        sprites: [
+          PetSprites(
+            width: 544,
+            height: 556,
+            path: 'dog/child/white/white_dog'
+          ),
+          PetSprites(
+            width: 628,
+            height: 626,
+            path: 'dog/teen/white/white_dog'
+          ),
+          PetSprites(
+            width: 728,
+            height: 728,
+            path: 'dog/adult/white/white_dog'
+          ),
+        ]
       )
     );
   }

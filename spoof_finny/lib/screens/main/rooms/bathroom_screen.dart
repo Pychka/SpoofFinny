@@ -38,8 +38,8 @@ class BathroomScreen extends FlameGame with HasGameReference {
     );
     add(goBack);
     final teethbrushStat = GameState.instance.userInfo.statManager.getStat('teethbrush');
-    //final bathStat = GameState.instance.userInfo.statManager.getStat('shower');
-    //final toiletStat = GameState.instance.userInfo.statManager.getStat('toilet');
+    final bathStat = GameState.instance.userInfo.statManager.getStat('shower');
+    final toiletStat = GameState.instance.userInfo.statManager.getStat('toilet');
     final hygiene = GameState.instance.userInfo.statManager.getStat('hygiene');
     final sink = InteractiveArea(
       relativeX: 0.03515625,
@@ -73,58 +73,57 @@ class BathroomScreen extends FlameGame with HasGameReference {
     );
     add(sink);
 
-    // final bath = InteractiveArea(
-    //   relativeX: 0.03515625,
-    //   relativeY: 0.189453125,
-    //   relativeWidth: 0.236328125,
-    //   relativeHeight: 0.640625,
-    //   onTapAction: () {
-    //     if(bathStat.state() != StatValueState.critMax) return;
-    //     GameState.instance.gameEventBus.actionHappen(
-    //       ChangeStatValueGameEvent(
-    //         stat: bathStat,
-    //         value: 0,
-    //         operator: Operator.change
-    //         )
-    //       );
+    final bath = InteractiveArea(
+      relativeX: 0.654296875,
+      relativeY: 0.21549479166666666666666666666667,
+      relativeWidth: 0.271484375,
+      relativeHeight: 0.60546875,
+      onTapAction: () {
+        if(bathStat.state() != StatValueState.critMax) return;
+        GameState.instance.gameEventBus.actionHappen(
+          ChangeStatValueGameEvent(
+            stat: bathStat,
+            value: 0,
+            operator: Operator.change
+            )
+          );
           
-    //     GameState.instance.gameEventBus.actionHappen(
-    //       ChangeStatValueGameEvent(
-    //         stat: hygiene,
-    //         value: bathStat.maxValue,
-    //         operator: Operator.plus
-    //         )
-    //       );
-    //   },
-    // );
-    // add(bath);
+        GameState.instance.gameEventBus.actionHappen(
+          ChangeStatValueGameEvent(
+            stat: hygiene,
+            value: bathStat.maxValue,
+            operator: Operator.plus
+            )
+          );
+      },
+    );
+    add(bath);
 
-    
-  // final toilet = InteractiveArea(
-  //   relativeX: 0.03515625,
-  //   relativeY: 0.189453125,
-  //   relativeWidth: 0.236328125,
-  //   relativeHeight: 0.640625,
-  //   onTapAction: () {
-  //     if(toiletStat.state() != StatValueState.critMax) return;
-  //     GameState.instance.gameEventBus.actionHappen(
-  //       ChangeStatValueGameEvent(
-  //         stat: toiletStat,
-  //         value: 0,
-  //         operator: Operator.change
-  //         )
-  //       );
-        
-  //     GameState.instance.gameEventBus.actionHappen(
-  //       ChangeStatValueGameEvent(
-  //         stat: hygiene,
-  //         value: toiletStat.maxValue,
-  //         operator: Operator.plus
-  //         )
-  //       );
-  //   },
-  // );
-  // add(toilet);
+    final toilet = InteractiveArea(
+      relativeX: 0.35546875,
+      relativeY: 0.44856770833333333333333333333333,
+      relativeWidth: 0.1318359375,
+      relativeHeight: 0.17447916666666666666666666666667,
+      onTapAction: () {
+        if(toiletStat.state() != StatValueState.critMax) return;
+        GameState.instance.gameEventBus.actionHappen(
+          ChangeStatValueGameEvent(
+            stat: toiletStat,
+            value: 0,
+            operator: Operator.change
+            )
+          );
+          
+        GameState.instance.gameEventBus.actionHappen(
+          ChangeStatValueGameEvent(
+            stat: hygiene,
+            value: toiletStat.maxValue,
+            operator: Operator.plus
+            )
+          );
+      },
+    );
+    add(toilet);
   }
 
   @override

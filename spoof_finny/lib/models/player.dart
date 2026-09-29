@@ -1,23 +1,23 @@
 import 'dart:async';
 import 'package:flame/components.dart';
 import 'package:spoof_finny/models/game_state.dart';
+import 'package:spoof_finny/models/pet_sprites.dart';
 
-enum PlayerState { idle, walk, }
+enum PlayerState { normal, sad, tired, happy  }
 
 class Player extends SpriteAnimationGroupComponent<PlayerState> with HasGameReference{
   final int countFrames;
   final Vector2 textureSize;
   final double moveSpeed = 32.0;
-  final String assetsFolder;
-  final List<String> stageFolders;
+  String get assetsFolder => currentStage.path;
+  final List<PetSprites> sprites;
   final String name;
   String get preview => '${assetsFolder}preview.png';
 
   Player({
     required this.countFrames,
     required this.textureSize,
-    required this.assetsFolder,
-    required this.stageFolders,
+    required this.sprites,
     required this.name
     }) : super(size: Vector2.all(256.0), priority: 10);
 
@@ -25,42 +25,68 @@ class Player extends SpriteAnimationGroupComponent<PlayerState> with HasGameRefe
   Future<void> onLoad() async {
     super.onLoad();
 
-    // Wait sprites :)
-    final idleSprite = await game.images.load("player/$assetsFolder${stageFolder}idle.png");
-    final walkSprite = await game.images.load("player/$assetsFolder${stageFolder}run.png");
+    final petSprite = currentStage;
+    final spriteSize = Vector2(petSprite.width.toDouble(), petSprite.height.toDouble());
 
-    final idleAnimation = SpriteAnimation.fromFrameData(
-      idleSprite,
+    final normalSprite = await game.images.load("player/${assetsFolder}_normal.png");
+    final sadSprite = await game.images.load("player/${assetsFolder}_sad.png");
+    final tiredSprite = await game.images.load("player/${assetsFolder}_tired.png");
+    final happySprite = await game.images.load("player/${assetsFolder}_happy.png");
+
+    final normalAnimation = SpriteAnimation.fromFrameData(
+      normalSprite,
       SpriteAnimationData.sequenced(
-        amount: countFrames,
-        stepTime: 1.0 / countFrames,
-        textureSize: textureSize,
+        amount: 1,
+        stepTime: 1,
+        textureSize: spriteSize,
       )
     );
 
-    final walkAnimation = SpriteAnimation.fromFrameData(
-      walkSprite,
+    final sadAnimation = SpriteAnimation.fromFrameData(
+      sadSprite,
       SpriteAnimationData.sequenced(
-        amount: countFrames,
-        stepTime: 1.0 / countFrames,
-        textureSize: textureSize,
+        amount: 1,
+        stepTime: 1,
+        textureSize: spriteSize,
+      )
+    );
+
+    final tiredAnimation = SpriteAnimation.fromFrameData(
+      tiredSprite,
+      SpriteAnimationData.sequenced(
+        amount: 1,
+        stepTime: 1,
+        textureSize: spriteSize,
+      )
+    );
+
+    final happyAnimation = SpriteAnimation.fromFrameData(
+      happySprite,
+      SpriteAnimationData.sequenced(
+        amount: 1,
+        stepTime: 1,
+        textureSize: spriteSize,
       )
     );
     
     animations = {
-      PlayerState.idle: idleAnimation,
-      PlayerState.walk: walkAnimation,
+      PlayerState.normal: normalAnimation,
+      PlayerState.sad: sadAnimation,
+      PlayerState.tired: tiredAnimation,
+      PlayerState.happy: happyAnimation,
     };
     
-    current = PlayerState.idle;
+    changeState();
     position = Vector2(game.size.x / 2, game.size.y - game.size.y / 4);
     anchor = Anchor.center;
   }
 
-  String get stageFolder {
+  PetSprites get currentStage{
     final level = GameState.instance.userInfo.experienceSystem.currentLevel;
-    return stageFolders[level >= 18 ? 2 : level >= 12 ? 1 : 0];
+    return sprites[level <= 12 ? 0 : level <= 18 ? 1 : 2];
   }
 
-  Player get createNew => Player(name: name, countFrames: countFrames, textureSize: textureSize, assetsFolder: assetsFolder, stageFolders: stageFolders);
+  Player get createNew => Player(name: name, countFrames: countFrames, textureSize: textureSize, sprites: sprites);
+
+  void changeState() => current = GameState.instance.userInfo.statManager.currentState;
 }

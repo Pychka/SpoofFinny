@@ -8,7 +8,7 @@ part of 'money_quest_goal.dart';
 
 class MoneyQuestGoalAdapter extends TypeAdapter<MoneyQuestGoal> {
   @override
-  final typeId = 34;
+  final typeId = 47;
 
   @override
   MoneyQuestGoal read(BinaryReader reader) {

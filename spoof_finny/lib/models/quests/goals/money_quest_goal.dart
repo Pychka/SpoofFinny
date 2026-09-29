@@ -7,7 +7,7 @@ import 'package:spoof_finny/models/time_system/game_time_changed_event.dart';
 import '../../game_events/buy_game_event.dart';
 part 'money_quest_goal.g.dart';
 
-@HiveType(typeId: 34)
+@HiveType(typeId: 47)
 class MoneyQuestGoal extends QuestGoalProgress {
   @HiveField(5)
   double _totalValue;

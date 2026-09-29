@@ -1,7 +1,9 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:spoof_finny/models/experience_system.dart';
+import 'package:spoof_finny/models/pet_sprites.dart';
 import 'package:spoof_finny/models/player_factory.dart';
+import 'package:spoof_finny/models/quests/quest_manager.dart';
 import 'package:spoof_finny/models/time_system/game_time_manager.dart';
 import 'package:spoof_finny/models/items/inventory.dart';
 import 'package:spoof_finny/models/money_system/money_manager.dart';
@@ -41,6 +43,10 @@ class UserInfo{
   StatManager statManager = StatManager(statsValues: {});
   @HiveField(11)
   ShopManager shopManager = ShopManager(shopsValues: {});
+  @HiveField(30)
+  QuestManager questManager;
+  @HiveField(32)
+  List<PetSprites> petSprites = [];
   ValueNotifier<String> playerIdNotifier = ValueNotifier('');
 
   UserInfo({
@@ -52,7 +58,8 @@ class UserInfo{
     required this.age,
     required this.isInitialized,
     ExperienceSystem? experienceSystem,
-  }) : experienceSystem = experienceSystem ?? ExperienceSystem(currentLevelValue: 0, currentExperienceValue: 0, factor: 20);
+    QuestManager? questManager,
+  }) : questManager = questManager ?? QuestManager(activeQuestsValues: []), experienceSystem = experienceSystem ?? ExperienceSystem(currentLevelValue: 0, currentExperienceValue: 0, factor: 20);
   
   set playerId(String playerId) {
     playerIdValue = playerId;

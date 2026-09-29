@@ -1,13 +1,19 @@
 import 'package:flutter/widgets.dart';
+import 'package:hive_ce_flutter/adapters.dart';
 import 'package:spoof_finny/models/game_state.dart';
 import 'package:spoof_finny/models/quests/rewards/quest_reward.dart';
 import 'package:spoof_finny/models/stats/operator.dart';
 import 'package:spoof_finny/models/stats/player_stat.dart';
 import 'package:spoof_finny/models/user_info.dart';
+part 'stat_reward.g.dart';
 
+@HiveType(typeId: 42)
 class StatReward extends QuestReward {
+  @HiveField(1)
   int amount;
+  @HiveField(2)
   PlayerStat stat;
+  @HiveField(3)
   Operator operator;
 
   StatReward({

@@ -53,8 +53,9 @@ class _TasksScreenState extends State<TasksScreen>{
                           child: Text(
                             _buttons[index],
                             style: TextStyle(
+                              color: index + 1 == selectedIndex ? Colors.white : Colors.black,
                               fontSize: 20,
-                              fontWeight: FontWeight.bold
+                              fontWeight: index + 1 == selectedIndex ? FontWeight.w900 : FontWeight.normal
                             ),
                           ),
                         ),
@@ -68,13 +69,13 @@ class _TasksScreenState extends State<TasksScreen>{
             ConstrainedBox(
               constraints: BoxConstraints(minHeight: screenHeight * 0.2, maxHeight: screenHeight * 0.7),
               child: ListenableBuilder(
-                listenable: GameState.instance.questManager,
+                listenable: GameState.instance.userInfo.questManager,
                 builder: (context, child) {
-                  final quests = selectedIndex == 2 ? GameState.instance.questManager.dailyQuests
-                    : selectedIndex == 3 ? GameState.instance.questManager.weeklyQuests
-                    : selectedIndex == 4 ? GameState.instance.questManager.monthlyQuests
-                    : selectedIndex == 5 ? GameState.instance.questManager.statedQuests
-                    : GameState.instance.questManager.activeQuests;
+                  final quests = selectedIndex == 2 ? GameState.instance.userInfo.questManager.dailyQuests
+                    : selectedIndex == 3 ? GameState.instance.userInfo.questManager.weeklyQuests
+                    : selectedIndex == 4 ? GameState.instance.userInfo.questManager.monthlyQuests
+                    : selectedIndex == 5 ? GameState.instance.userInfo.questManager.statedQuests
+                    : GameState.instance.userInfo.questManager.activeQuests;
                   if(quests.isEmpty){
                     return const SizedBox(
                       height: 100,

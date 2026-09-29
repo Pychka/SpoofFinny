@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:spoof_finny/models/game_state.dart';
+import 'package:spoof_finny/screens/additional/settings_screen.dart';
 import 'package:spoof_finny/screens/additional/stats_screen.dart';
 import 'package:spoof_finny/screens/additional/tasks_screen.dart';
 
@@ -159,7 +160,13 @@ class _TopMainMenuState extends State<TopMainMenu> with WidgetsBindingObserver {
                           IconButton(
                             icon: const Icon(Icons.settings_outlined),
                             onPressed: () => {
-                              
+                              showDialog(
+                                context: context,
+                                barrierDismissible: true,
+                                builder: (BuildContext context) {
+                                  return const SettingsScreen();
+                                }
+                              )
                             },
                           ),
                           const Divider(

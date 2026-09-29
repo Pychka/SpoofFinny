@@ -1,9 +1,12 @@
-
 import 'package:flutter/widgets.dart';
+import 'package:hive_ce_flutter/adapters.dart';
 import 'package:spoof_finny/models/quests/rewards/quest_reward.dart';
 import 'package:spoof_finny/models/user_info.dart';
+part 'money_reward.g.dart';
 
+@HiveType(typeId: 43)
 class MoneyReward extends QuestReward {
+  @HiveField(1)
   double amount;
 
   MoneyReward({

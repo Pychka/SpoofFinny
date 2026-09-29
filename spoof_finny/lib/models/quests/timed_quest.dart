@@ -9,7 +9,7 @@ import 'package:spoof_finny/models/quests/rewards/quest_reward.dart';
 import 'package:spoof_finny/models/time_system/game_time_changed_event.dart';
 part 'timed_quest.g.dart';
 
-@HiveType(typeId: 32)
+@HiveType(typeId: 48)
 class TimedQuest extends Quest {
   
   @HiveField(7)

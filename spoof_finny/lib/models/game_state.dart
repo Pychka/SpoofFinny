@@ -8,7 +8,6 @@ import 'package:spoof_finny/models/quests/goals/goal_factory.dart';
 import 'package:spoof_finny/models/quests/rewards/rewards_factory.dart';
 import 'package:spoof_finny/models/time_system/game_time.dart';
 import 'package:spoof_finny/models/time_system/game_time_manager.dart';
-import 'package:spoof_finny/models/quests/quest_manager.dart';
 import 'package:spoof_finny/models/user_info.dart';
 
 class GameState {
@@ -17,7 +16,6 @@ class GameState {
   static final GameState instance = GameState._internal();
 
   late UserInfo userInfo;
-  late QuestManager questManager;
   late ProductsStorage productsStorage;
   GameEventBus gameEventBus = GameEventBus();
   Timer? _autoSaveTimer;
@@ -43,7 +41,7 @@ class GameState {
 
   void dispose() {
     _autoSaveTimer?.cancel();
-    questManager.dispose();
+    userInfo.questManager.dispose();
     userInfo.dispose();
     productsStorage.dispose();
   }
@@ -57,7 +55,7 @@ class GameState {
     ItemFactory.instance.init();  
     GoalFactory.instance.init();
     RewardsFactory.instance.init();
-    questManager = QuestManager(activeQuests: [])..init(gameEventBus);
+    userInfo.questManager.init(gameEventBus);
     productsStorage = ProductsStorage()..addItem('Банан', 100, 300, 0.2)..addItem('Апельсин', 60, 200, 0.7)..addItem('Яблоко', 50, 200, 0.1);
     productsStorage.init();
     userInfo.shopManager.init();

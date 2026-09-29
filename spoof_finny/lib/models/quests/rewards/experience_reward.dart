@@ -1,8 +1,12 @@
 import 'package:flutter/widgets.dart';
+import 'package:hive_ce_flutter/hive_flutter.dart';
 import 'package:spoof_finny/models/quests/rewards/quest_reward.dart';
 import 'package:spoof_finny/models/user_info.dart';
+part 'experience_reward.g.dart';
 
+@HiveType(typeId: 45)
 class ExperienceReward extends QuestReward {
+  @HiveField(1)
   int amount;
 
   ExperienceReward({

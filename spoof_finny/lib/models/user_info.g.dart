@@ -25,17 +25,19 @@ class UserInfoAdapter extends TypeAdapter<UserInfo> {
         age: (fields[13] as num).toInt(),
         isInitialized: fields[14] as bool,
         experienceSystem: fields[8] as ExperienceSystem?,
+        questManager: fields[30] as QuestManager?,
       )
       ..moneyManager = fields[7] as MoneyManager
       ..inventory = fields[9] as Inventory
       ..statManager = fields[10] as StatManager
-      ..shopManager = fields[11] as ShopManager;
+      ..shopManager = fields[11] as ShopManager
+      ..petSprites = (fields[32] as List).cast<PetSprites>();
   }
 
   @override
   void write(BinaryWriter writer, UserInfo obj) {
     writer
-      ..writeByte(12)
+      ..writeByte(14)
       ..writeByte(0)
       ..write(obj.timeManager)
       ..writeByte(1)
@@ -59,7 +61,11 @@ class UserInfoAdapter extends TypeAdapter<UserInfo> {
       ..writeByte(13)
       ..write(obj.age)
       ..writeByte(14)
-      ..write(obj.isInitialized);
+      ..write(obj.isInitialized)
+      ..writeByte(30)
+      ..write(obj.questManager)
+      ..writeByte(32)
+      ..write(obj.petSprites);
   }
 
   @override

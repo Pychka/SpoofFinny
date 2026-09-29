@@ -18,7 +18,7 @@ class _StartScreenState extends State<StartScreen> with WidgetsBindingObserver {
     final buttonStyle = ElevatedButton.styleFrom(
       foregroundColor: Colors.white,
       backgroundColor: Colors.blueAccent,
-      padding: EdgeInsets.symmetric(vertical: 7),
+      padding: EdgeInsets.symmetric(vertical: 7, horizontal: 10),
       elevation: 3, 
       shadowColor: Colors.black.withValues(alpha: 0.5),
       shape: RoundedRectangleBorder(

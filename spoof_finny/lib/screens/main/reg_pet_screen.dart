@@ -18,7 +18,7 @@ class _RegPetScreenState extends State<RegPetScreen> with WidgetsBindingObserver
     final buttonStyle = ElevatedButton.styleFrom(
       foregroundColor: Colors.white,
       backgroundColor: Colors.blueAccent,
-      padding: EdgeInsets.symmetric(vertical: 7),
+      padding: EdgeInsets.symmetric(vertical: 7, horizontal: 10),
       elevation: 3, 
       shadowColor: Colors.black.withValues(alpha: 0.5),
       shape: RoundedRectangleBorder(
@@ -97,7 +97,7 @@ class _RegPetScreenState extends State<RegPetScreen> with WidgetsBindingObserver
                                             child: Column(
                                               children: [
                                                 Image.asset(
-                                                  'assets/images/player/${player.preview}',
+                                                  'assets/images/player/${player.sprites[2].path}_normal.png',
                                                   height: 150,
                                                 ),
                                                 Text(

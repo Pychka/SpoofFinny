@@ -37,10 +37,27 @@ flutter:
     - assets/images/bathroom/
     - assets/images/bedroom/
     - assets/images/livingroom/
-    - assets/images/player/kitty/
-    - assets/images/player/kitty/child/
-    - assets/images/player/kitty/teen/
-    - assets/images/player/kitty/adult/
+
+    - assets/images/player/kitty/child/green/
+    - assets/images/player/kitty/teen/green/
+    - assets/images/player/kitty/adult/green/
+    - assets/images/player/kitty/child/grey/
+    - assets/images/player/kitty/teen/grey/
+    - assets/images/player/kitty/adult/grey/
+    - assets/images/player/kitty/child/white/
+    - assets/images/player/kitty/teen/white/
+    - assets/images/player/kitty/adult/white/
+
+    - assets/images/player/dog/child/blond/
+    - assets/images/player/dog/teen/blond/
+    - assets/images/player/dog/adult/blond/
+    - assets/images/player/dog/child/brown/
+    - assets/images/player/dog/teen/brown/
+    - assets/images/player/dog/adult/brown/
+    - assets/images/player/dog/child/white/
+    - assets/images/player/dog/teen/white/
+    - assets/images/player/dog/adult/white/
+
     - assets/images/food/
     - assets/images/food/fruits/
     - assets/images/map/

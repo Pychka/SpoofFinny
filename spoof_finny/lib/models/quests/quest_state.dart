@@ -2,7 +2,7 @@ import 'package:hive_ce/hive_ce.dart';
 
 part 'quest_state.g.dart';
 
-@HiveType(typeId: 16)
+@HiveType(typeId: 50)
 enum QuestState{
   @HiveField(0)
   active,

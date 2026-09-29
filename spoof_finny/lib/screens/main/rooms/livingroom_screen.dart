@@ -14,7 +14,7 @@ class LivingroomScreen extends FlameGame with HasGameReference {
 
     // Wait assets :)
     background = SpriteComponent()
-      ..sprite = await loadSprite("livingroom/background.png")
+      ..sprite = await loadSprite("livingroom/background.jpg")
       ..size = size;
     add(background!);
 

@@ -33,8 +33,8 @@ class _FridgeScreenState extends State<FridgeScreen>{
               ],
             ),
             const Divider(),
-            ConstrainedBox(
-              constraints: BoxConstraints(minHeight: screenHeight * 0.2, maxHeight: screenHeight * 0.7),
+            SizedBox(
+              height: screenHeight * 0.7,
               child: SingleChildScrollView(
               padding: const EdgeInsets.all(5.0),
               child: ListenableBuilder(

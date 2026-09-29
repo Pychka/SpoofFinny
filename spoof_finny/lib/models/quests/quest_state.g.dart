@@ -8,7 +8,7 @@ part of 'quest_state.dart';
 
 class QuestStateAdapter extends TypeAdapter<QuestState> {
   @override
-  final typeId = 16;
+  final typeId = 50;
 
   @override
   QuestState read(BinaryReader reader) {

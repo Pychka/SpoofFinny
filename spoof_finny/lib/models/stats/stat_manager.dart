@@ -5,6 +5,7 @@ import 'package:hive_ce/hive_ce.dart';
 import 'package:hive_ce_flutter/hive_flutter.dart';
 import 'package:spoof_finny/models/game_events/game_event_bus.dart';
 import 'package:spoof_finny/models/game_state.dart';
+import 'package:spoof_finny/models/player.dart';
 import 'package:spoof_finny/models/quests/rewards/stat_reward.dart';
 import 'package:spoof_finny/models/stats/operator.dart';
 import 'package:spoof_finny/models/stats/player_stat.dart';
@@ -38,7 +39,6 @@ class StatManager extends ChangeNotifier {
       }
       if(gameEvent is ChangeStatValueGameEvent){
         _changeStat(_stats[gameEvent.stat.name], gameEvent.value, gameEvent.operator);
-        
         if(gameEvent.stat.name == 'hygiene' && gameEvent.operator == Operator.minus){
           _changeStat(getStat('teethbrush'), gameEvent.value, Operator.plus);
           _changeStat(getStat('shower'), gameEvent.value, Operator.plus);
@@ -104,6 +104,11 @@ class StatManager extends ChangeNotifier {
     _gameEventBus.actionHappen(CritStatValueGameEvent(name: stat.name, stat: state));
   }
 
+  PlayerState get currentState => getStat('mood').currentValue <= -50 ? PlayerState.sad
+    : getStat('fatigue').currentValue <= -50 ? PlayerState.tired
+    : getStat('mood').currentValue >= 50 ? PlayerState.happy
+    : PlayerState.normal;
+
   void firstInit(){
     if(GameState.instance.userInfo.isInitialized) return;
 
@@ -128,8 +133,8 @@ class StatManager extends ChangeNotifier {
     addStat(
       PlayerStat(
         name: 'fatigue',
-        displayedName: 'Усталость',
-        icon: '🥱',
+        displayedName: 'Бодрость',
+        icon: '⚡',
         type: StatType.constant,
         currentValue: 0
       )
@@ -140,16 +145,16 @@ class StatManager extends ChangeNotifier {
         displayedName: 'Гигиена',
         icon: '🧼',
         type: StatType.constant,
-        currentValue: 0
+        currentValue: 100
       )
     );
     addStat(
       PlayerStat(
         name: 'stress',
-        displayedName: 'Стресс',
-        icon: '🤯',
+        displayedName: 'Спокойствие',
+        icon: '😮‍💨',
         type: StatType.constant,
-        currentValue: 0
+        currentValue: 100
         )
       );
 
