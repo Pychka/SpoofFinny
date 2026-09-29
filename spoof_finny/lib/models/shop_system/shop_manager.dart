@@ -85,7 +85,7 @@ class ShopManager extends ChangeNotifier {
     GameState.instance.userInfo.shopManager.addItem(
       Shop(
         headerPath: '',
-        assetPath: 'map/test_purple_house.png',
+        assetPath: 'map/shop2_mark.png',
         name: 'Purple',
         relativeX: 0.645,
         relativeY: 0.6875,
@@ -113,7 +113,7 @@ class ShopManager extends ChangeNotifier {
     GameState.instance.userInfo.shopManager.addItem(
       Shop(
         headerPath: '',
-        assetPath: 'map/test_green_house.png',
+        assetPath: 'map/shop1_mark.png',
         name: 'Green',
         relativeX: 0.645,
         relativeY: 0.3425,
