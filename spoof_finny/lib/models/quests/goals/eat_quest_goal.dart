@@ -25,7 +25,7 @@ class EatQuestGoal extends QuestGoalProgress {
   void setTarget(double value){
     final item = ItemFactory.instance.getRandomItem<Food>();
     itemName = item.name;
-    requiredValue = min((30 / (item.events.firstWhereOrNull((event) => event.stat.name == 'hygiene')?.value ?? 1)).toInt(), value.toInt());
+    requiredValue = min((30 / max(1, (item.events.firstWhereOrNull((event) => event.stat.name == 'hygiene')?.value ?? 1))).toInt(), value.toInt());
   }
 
   @override
