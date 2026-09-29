@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:hive_ce/hive_ce.dart';
 import 'package:hive_ce_flutter/hive_flutter.dart';
 import 'package:spoof_finny/models/game_state.dart';
+import 'package:spoof_finny/models/money_system/term_account.dart';
 import 'package:spoof_finny/models/time_system/game_time.dart';
 import 'package:spoof_finny/models/time_system/game_time_changed_event.dart';
 import 'package:spoof_finny/models/money_system/money_storage.dart';
@@ -9,7 +10,7 @@ import 'package:spoof_finny/models/money_system/money_storage.dart';
 part 'credit_card.g.dart';
 
 @HiveType(typeId: 5)
-class CreditCard extends MoneyStorage{
+class CreditCard extends MoneyStorage implements TermAccount{
   @HiveField(1)
   double _debt = 0.0;
   ValueNotifier<double> debtNotifier = ValueNotifier(0.0);
@@ -29,6 +30,7 @@ class CreditCard extends MoneyStorage{
     GameState.instance.saveUserInfo();
   }
 
+  @override
   void accrueInterest(GameTimeChangedEvent event){
     if(lastPayDate.totalSeconds < event.to.totalSeconds && (event.to.day - lastPayDate.day) / 30 > 0){
       debt += (debt + (money < 0 ? money * -1 : 0)) * (event.to.day - lastPayDate.day) / 30 ;
@@ -60,4 +62,6 @@ class CreditCard extends MoneyStorage{
     debtNotifier.value = debt;
     super.init();
   }
+  @override
+  String get billType => 'Кредитная карта';
 }

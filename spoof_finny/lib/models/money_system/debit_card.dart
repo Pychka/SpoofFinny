@@ -6,4 +6,6 @@ part 'debit_card.g.dart';
 @HiveType(typeId: 7)
 class DebitCard extends MoneyStorage{
   DebitCard({super.money = 0.0});
+  @override
+  String get billType => 'Дебитовая карта';
 }

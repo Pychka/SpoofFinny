@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:spoof_finny/models/game_state.dart';
+import 'package:spoof_finny/screens/additional/bills_screen.dart';
 import 'package:spoof_finny/screens/additional/settings_screen.dart';
 import 'package:spoof_finny/screens/additional/stats_screen.dart';
 import 'package:spoof_finny/screens/additional/tasks_screen.dart';
@@ -73,23 +74,22 @@ class _TopMainMenuState extends State<TopMainMenu> with WidgetsBindingObserver {
                     child: Card(
                     color: Color(0xA0FFFFFF),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-                    child: 
-                      InkWell(
-                        onTap: () {
-                          showDialog(
-                            context: context,
-                            barrierDismissible: true,
-                            builder: (BuildContext context) {
-                              return const StatsScreen();
-                            }
-                          );
-                        },
-                        child: Padding(
+                    child: Padding(
                           padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                           child: Row(
                             spacing: 5,
                             children: [
-                              ConstrainedBox(
+                              InkWell(
+                                onTap: () {
+                                  showDialog(
+                                    context: context,
+                                    barrierDismissible: true,
+                                    builder: (BuildContext context) {
+                                      return const BillsScreen();
+                                    }
+                                  );
+                                },
+                                child: ConstrainedBox(
                                 constraints: BoxConstraints(
                                   maxWidth: screenWidth * 0.25,
                                 ),
@@ -103,50 +103,69 @@ class _TopMainMenuState extends State<TopMainMenu> with WidgetsBindingObserver {
                                     ),
                                   )
                                 ),
+                              ),
+                              SizedBox(width: 5,),
                               Expanded(
-                                child: 
-                                  ValueListenableBuilder<int>(
-                                    valueListenable: GameState.instance.userInfo.experienceSystem.currentExperienceNotifier,
-                                    builder: (context, currentExperience, child) {
-                                      return Stack(
-                                        alignment: Alignment.center,
-                                        children: [
-                                          LinearProgressIndicator(
-                                            value: GameState.instance.userInfo.experienceSystem.getPercentOfNextLevel,
-                                            borderRadius: BorderRadius.circular(20),
-                                            color: Colors.green,
-                                            minHeight: 30,
-                                            backgroundColor: Colors.grey,
-                                          ),
+                                child: InkWell(
+                                  onTap: () {
+                                    showDialog(
+                                      context: context,
+                                      barrierDismissible: true,
+                                      builder: (BuildContext context) {
+                                        return const StatsScreen();
+                                      }
+                                    );
+                                  },
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        child:ValueListenableBuilder<int>(
+                                          valueListenable: GameState.instance.userInfo.experienceSystem.currentExperienceNotifier,
+                                          builder: (context, currentExperience, child) {
+                                            return Stack(
+                                              alignment: Alignment.center,
+                                              children: [
+                                                LinearProgressIndicator(
+                                                  value: GameState.instance.userInfo.experienceSystem.getPercentOfNextLevel,
+                                                  borderRadius: BorderRadius.circular(20),
+                                                  color: Colors.green,
+                                                  minHeight: 30,
+                                                  backgroundColor: Colors.grey,
+                                                ),
+                                                Text(
+                                                  '$currentExperience/${GameState.instance.userInfo.experienceSystem.nextLevelExperience}',
+                                                  style: const TextStyle(
+                                                    color: Colors.white, 
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 18,
+                                                  ),
+                                                ),
+                                              ]
+                                            );
+                                          }
+                                        )
+                                      ),
+                                      SizedBox(width: 5,),
+                                      ValueListenableBuilder<int>(
+                                        valueListenable: GameState.instance.userInfo.experienceSystem.currentLevelNotifier,
+                                        builder: (context, value, child) =>
                                           Text(
-                                            '$currentExperience/${GameState.instance.userInfo.experienceSystem.nextLevelExperience}',
+                                            '${GameState.instance.userInfo.experienceSystem.currentLevel}⭐',
                                             style: const TextStyle(
-                                              color: Colors.white, 
+                                              color: Colors.black, 
                                               fontWeight: FontWeight.w500,
                                               fontSize: 18,
                                             ),
-                                          ),
-                                        ]);
-                                      }
+                                          )
+                                        )
+                                      ]
+                                    )
                                   )
-                              ),
-                              ValueListenableBuilder<int>(
-                                valueListenable: GameState.instance.userInfo.experienceSystem.currentLevelNotifier,
-                                builder: (context, value, child) =>
-                                  Text(
-                                    '${GameState.instance.userInfo.experienceSystem.currentLevel}⭐',
-                                    style: const TextStyle(
-                                      color: Colors.black, 
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 18,
-                                    ),
-                                  )
-                              ),
-                              
+                              )
                             ],
                           ),
                         ),
-                      )
+                      
                     ),
                   ),
                   Card(

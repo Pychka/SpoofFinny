@@ -6,4 +6,6 @@ part 'wallet.g.dart';
 @HiveType(typeId: 6)
 class Wallet extends MoneyStorage{
   Wallet({super.money = 0.0});
+  @override
+  String get billType => 'Кошелёк';
 }

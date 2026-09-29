@@ -30,4 +30,6 @@ class MoneyStorage{
     }
     return false;
   }
+
+  String get billType => 'Счёт';
 }
