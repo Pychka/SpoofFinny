@@ -87,17 +87,29 @@ class ShopManager extends ChangeNotifier {
         headerPath: '',
         assetPath: 'map/test_purple_house.png',
         name: 'Purple',
-        relativeX:  0.645,
+        relativeX: 0.645,
         relativeY: 0.6875,
         relativeWidth: 0.3625,
         relativeHeight: 0.3125,
         wantEvenly: 0.7,
         wantMax: 0.1,
         wantMin: 0.2,
-      )..addItem('Банан', 10, 100, 0.2)
-      ..addItem('Апельсин', 5, 50, 0.5)
-      ..addItem('Яблоко', 40, 150, 0.3)
+      )
+      ..addItem('Банан', 10, 40, 0.10)
+      ..addItem('Апельсин', 5, 25, 0.05)
+      ..addItem('Капучино', 15, 50, 0.15)
+      ..addItem('Яблочный сок', 10, 40, 0.10)
+      ..addItem('Чизкейк', 8, 30, 0.15)
+      ..addItem('Шоколадный брауни', 8, 30, 0.15)
+      ..addItem('Клубничное мороженое', 12, 45, 0.10)
+      ..addItem('Борщ', 3, 15, 0.04)
+      ..addItem('Куриный суп-лапша', 3, 15, 0.04)
+      ..addItem('Грибной крем-суп', 3, 15, 0.04)
+      ..addItem('Стейк из лосося с рисом', 2, 10, 0.02)
+      ..addItem('Паста Болоньезе', 4, 15, 0.03)
+      ..addItem('Куриное филе на гриле с пюре', 4, 15, 0.03)
     );
+
     GameState.instance.userInfo.shopManager.addItem(
       Shop(
         headerPath: '',
@@ -110,9 +122,15 @@ class ShopManager extends ChangeNotifier {
         wantEvenly: 0.3,
         wantMax: 0.5,
         wantMin: 0.2,
-      )..addItem('Банан', 5, 50, 0.4)
-      ..addItem('Апельсин', 30, 70, 0.2)
-      ..addItem('Яблоко', 10, 30, 0.4)
+      )
+      ..addItem('Яблоко', 30, 100, 0.25)
+      ..addItem('Банан', 20, 70, 0.15)
+      ..addItem('Апельсин', 15, 60, 0.15)
+      ..addItem('Помидор', 20, 80, 0.15)
+      ..addItem('Огурец', 25, 90, 0.15)
+      ..addItem('Брокколи', 10, 40, 0.05)
+      ..addItem('Зеленый чай', 10, 40, 0.05)
+      ..addItem('Яблочный сок', 10, 40, 0.05)
     );
   }
 

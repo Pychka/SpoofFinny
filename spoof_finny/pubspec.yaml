@@ -60,4 +60,9 @@ flutter:
 
     - assets/images/food/
     - assets/images/food/fruits/
+    - assets/images/food/desserts/
+    - assets/images/food/drinks/
+    - assets/images/food/main/
+    - assets/images/food/second/
+    - assets/images/food/vegetables/
     - assets/images/map/

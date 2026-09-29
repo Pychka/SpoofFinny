@@ -135,7 +135,6 @@ class QuestManager extends ChangeNotifier {
       for(int i = 0; i < countGoals; i++){
         do{
           goal = GoalFactory.instance.getRandomQuestGoal();
-          print(goal);
         }
         while(goals.contains(goal));
         goals.add(goal);
