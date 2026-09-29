@@ -63,7 +63,7 @@ class _ShopScreenState extends State<ShopScreen>{
                   child: ListenableBuilder(
                     listenable: GameState.instance.userInfo.statManager,
                     builder: (context, child) {
-                      if(GameState.instance.userInfo.statManager.stats.isEmpty){
+                      if(shop.productsInStock.isEmpty){
                         return const SizedBox(
                           height: 100,
                           child: Center(child: Text('Товаров нет 😿', style: TextStyle(fontSize: 30),)),
@@ -79,10 +79,10 @@ class _ShopScreenState extends State<ShopScreen>{
                           crossAxisSpacing: 8.0,
                           childAspectRatio: 0.7,
                         ),
-                        itemCount: shop.products.length,
+                        itemCount: shop.productsInStock.length,
                         itemBuilder: (context, index) {
                           return ShopProductCard(
-                            product: shop.products[index],
+                            product: shop.productsInStock[index],
                             buy: shop.buy,
                           );
                         },

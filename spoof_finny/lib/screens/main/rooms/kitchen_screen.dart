@@ -8,17 +8,17 @@ import 'package:spoof_finny/screens/additional/fridge_screen.dart';
 
 class KitchenScreen extends FlameGame with HasGameReference {
   KitchenScreen({required this.changeScreen});
-
+  SpriteComponent? background;
   final Function(int) changeScreen;
   @override
   Future<void> onLoad() async {
     super.onLoad();
 
     // Wait assets :)
-    final background = SpriteComponent()
+    background = SpriteComponent()
       ..sprite = await loadSprite("kitchen/background.png")
       ..size = size;
-    add(background);
+    add(background!);
 
     final player = GameState.instance.userInfo.newPlayer;
 
@@ -52,5 +52,11 @@ class KitchenScreen extends FlameGame with HasGameReference {
       relativeY: 0.8,
     );
     add(goBack);
+  }
+
+  @override
+  void onGameResize(Vector2 size) {
+    super.onGameResize(size);
+    background?.size = size;
   }
 }

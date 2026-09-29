@@ -18,6 +18,7 @@ class QuestGoalAdapter extends TypeAdapter<QuestGoal> {
     };
     return QuestGoal(
       title: fields[0] as String,
+      id: fields[1] as String,
       timeChangedEvent: fields[99] as GameTimeChangedEvent,
     );
   }
@@ -25,9 +26,11 @@ class QuestGoalAdapter extends TypeAdapter<QuestGoal> {
   @override
   void write(BinaryWriter writer, QuestGoal obj) {
     writer
-      ..writeByte(2)
+      ..writeByte(3)
       ..writeByte(0)
       ..write(obj.title)
+      ..writeByte(1)
+      ..write(obj.id)
       ..writeByte(99)
       ..write(obj.timeChangedEvent);
   }

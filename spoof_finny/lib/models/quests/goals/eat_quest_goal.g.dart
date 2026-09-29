@@ -17,22 +17,25 @@ class EatQuestGoalAdapter extends TypeAdapter<EatQuestGoal> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return EatQuestGoal(
-      requiredValue: (fields[3] as num).toInt(),
+      requiredValue: (fields[4] as num).toInt(),
       title: fields[0] as String,
-      itemName: fields[1] as String,
+      itemName: fields[2] as String,
       timeChangedEvent: fields[99] as GameTimeChangedEvent,
+      id: fields[1] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, EatQuestGoal obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(5)
       ..writeByte(0)
       ..write(obj.title)
       ..writeByte(1)
+      ..write(obj.id)
+      ..writeByte(2)
       ..write(obj.itemName)
-      ..writeByte(3)
+      ..writeByte(4)
       ..write(obj.requiredValue)
       ..writeByte(99)
       ..write(obj.timeChangedEvent);

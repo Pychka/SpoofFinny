@@ -27,6 +27,12 @@ class Shop extends ChangeNotifier{
   double relativeWidth;
   @HiveField(7)
   double relativeHeight;
+  @HiveField(8)
+  double wantMax;
+  @HiveField(9)
+  double wantMin;
+  @HiveField(10)
+  double wantEvenly;
 
   Shop({
     required this.name,
@@ -36,17 +42,18 @@ class Shop extends ChangeNotifier{
     required this.relativeY,
     required this.relativeWidth,
     required this.relativeHeight,
-  });
+    required this.wantMax,
+    required this.wantMin,
+    required this.wantEvenly,
+    Map<String, ShopProduct> productsMap = const {}
+  }) : _products = Map.from(productsMap);
 
-    void addItem(String name, int count){
+  void addItem(String name, int minCount, int maxCount, double priority){
     final product = _products[name];
     if(product == null){
-      final item = ItemFactory.instance.get(name, count);
-      _products[name] = ShopProduct(item: item, hasDiscountValue: true, priceValue: item.basePrice, stockCountValue: count);
+      final item = ItemFactory.instance.get(name, 1);
+      _products[name] = ShopProduct(nameProduct: name, priceValue: item.basePrice, minCountValue: minCount, maxCountValue: maxCount)..init()..priority = priority;
       notifyListeners();
-    }
-    else{
-      product.stockCount += count;
     }
     GameState.instance.saveUserInfo();
   }
@@ -58,7 +65,12 @@ class Shop extends ChangeNotifier{
   }
 
   List<ShopProduct> get products => List.unmodifiable(_products.values);
+
+  List<ShopProduct> get productsInStock => List.unmodifiable(_products.values.where((product) => product.stockCount >= 1));
   
+  double get minNeedableBudget => _products.values.fold(0.0, (result, product) => result + product.costToMin);
+  double get maxNeedableBudget => _products.values.fold(0.0, (result, product) => result + product.costToMax);
+
   bool buy(String productName, int count, UserInfo userInfo){
     final product = _products[productName];
     if(product == null || product.stockCount < count) return false;

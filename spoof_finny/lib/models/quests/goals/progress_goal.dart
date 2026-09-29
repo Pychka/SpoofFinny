@@ -6,16 +6,34 @@ part 'progress_goal.g.dart';
 
 @HiveType(typeId: 31)
 class ProgressGoal extends QuestGoal {
-  @HiveField(1)
+  @HiveField(2)
   QuestGoalProgress progress;
 
   ProgressGoal({
     required this.progress,
     required super.title,
     required super.timeChangedEvent,
+    required super.id,
   });
 
   @override
   bool isCompleted() =>
     progress.isCompleted();
+
+  @override
+  double get baseValue => progress.requiredValue.toDouble();
+
+  
+  @override
+  QuestGoal get createNew => ProgressGoal(id: id, timeChangedEvent: timeChangedEvent, title: title, progress: progress);
+  
+  @override
+  int get hashCode => Object.hash(id, progress);
+
+  @override
+  bool operator ==(Object other) =>
+    identical(this, other) ||
+      other is ProgressGoal &&
+          progress == other.progress &&
+          id == other.id;
 }

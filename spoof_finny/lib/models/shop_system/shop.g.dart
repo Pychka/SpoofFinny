@@ -24,13 +24,16 @@ class ShopAdapter extends TypeAdapter<Shop> {
       relativeY: (fields[5] as num).toDouble(),
       relativeWidth: (fields[6] as num).toDouble(),
       relativeHeight: (fields[7] as num).toDouble(),
+      wantMax: (fields[8] as num).toDouble(),
+      wantMin: (fields[9] as num).toDouble(),
+      wantEvenly: (fields[10] as num).toDouble(),
     ).._products = (fields[0] as Map).cast<String, ShopProduct>();
   }
 
   @override
   void write(BinaryWriter writer, Shop obj) {
     writer
-      ..writeByte(8)
+      ..writeByte(11)
       ..writeByte(0)
       ..write(obj._products)
       ..writeByte(1)
@@ -46,7 +49,13 @@ class ShopAdapter extends TypeAdapter<Shop> {
       ..writeByte(6)
       ..write(obj.relativeWidth)
       ..writeByte(7)
-      ..write(obj.relativeHeight);
+      ..write(obj.relativeHeight)
+      ..writeByte(8)
+      ..write(obj.wantMax)
+      ..writeByte(9)
+      ..write(obj.wantMin)
+      ..writeByte(10)
+      ..write(obj.wantEvenly);
   }
 
   @override

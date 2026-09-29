@@ -17,7 +17,7 @@ class QuestAdapter extends TypeAdapter<Quest> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Quest(
-      id: (fields[5] as num).toInt(),
+      id: fields[5] as String,
       title: fields[0] as String,
       description: fields[1] as String,
       rewards: fields[30] == null

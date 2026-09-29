@@ -1,16 +1,14 @@
 import 'dart:async';
-import 'package:spoof_finny/models/game_event_bus.dart';
+import 'package:spoof_finny/models/game_events/game_event_bus.dart';
 import 'package:spoof_finny/models/data_services/storage_service.dart';
 import 'package:spoof_finny/models/items/item_factory.dart';
+import 'package:spoof_finny/models/items/products_storage.dart';
 import 'package:spoof_finny/models/player_factory.dart';
+import 'package:spoof_finny/models/quests/goals/goal_factory.dart';
+import 'package:spoof_finny/models/quests/rewards/rewards_factory.dart';
 import 'package:spoof_finny/models/time_system/game_time.dart';
-import 'package:spoof_finny/models/time_system/game_time_changed_event.dart';
 import 'package:spoof_finny/models/time_system/game_time_manager.dart';
-import 'package:spoof_finny/models/quests/goals/eat_quest_goal.dart';
-import 'package:spoof_finny/models/quests/quest.dart';
 import 'package:spoof_finny/models/quests/quest_manager.dart';
-import 'package:spoof_finny/models/quests/rewards/experience_reward.dart';
-import 'package:spoof_finny/models/quests/rewards/money_reward.dart';
 import 'package:spoof_finny/models/user_info.dart';
 
 class GameState {
@@ -20,6 +18,7 @@ class GameState {
 
   late UserInfo userInfo;
   late QuestManager questManager;
+  late ProductsStorage productsStorage;
   GameEventBus gameEventBus = GameEventBus();
   Timer? _autoSaveTimer;
 
@@ -31,40 +30,11 @@ class GameState {
     else{
       userInfo = info;
     }
-    questManager = QuestManager(
-      activeQuests: [
-        Quest(
-          id: 1,
-          title: 'Время перекусить',
-          description: 'Перекус одна из важных состовляющих дня',
-          rewards: [
-            ExperienceReward(amount: 50),
-            MoneyReward(amount: 50)
-          ],
-          goals: [
-            EatQuestGoal(
-              currentValue: 0,
-              requiredValue: 10,
-              title: 'Съешь 10 бананов',
-              itemName: 'Банан',
-              timeChangedEvent: GameTimeChangedEvent(
-                from: GameTime(totalSecondsValue: 0),
-                to: GameTime(totalSecondsValue: 20)
-              )
-            )
-          ],
-          timeChangedEvent: GameTimeChangedEvent(
-            from: GameTime(totalSecondsValue: 0),
-            to: GameTime(totalSecondsValue: 10)
-          )
-        )
-      ]
-    );
+    
     PlayerFactory.instance.init();
     if(userInfo.isInitialized){
       startGame();
     }
-    userInfo.moneyManager.wallet.money += 20000;
   }
 
   void saveUserInfo(){
@@ -75,6 +45,7 @@ class GameState {
     _autoSaveTimer?.cancel();
     questManager.dispose();
     userInfo.dispose();
+    productsStorage.dispose();
   }
 
   void startGame(){
@@ -83,10 +54,13 @@ class GameState {
     userInfo.moneyManager.init(gameEventBus);
     userInfo.inventory.init(gameEventBus);
     userInfo.timeManager.init(gameEventBus);    
-    ItemFactory.instance.init();
-    questManager.init(gameEventBus);
+    ItemFactory.instance.init();  
+    GoalFactory.instance.init();
+    RewardsFactory.instance.init();
+    questManager = QuestManager(activeQuests: [])..init(gameEventBus);
+    productsStorage = ProductsStorage()..addItem('Банан', 100, 300, 0.2)..addItem('Апельсин', 60, 200, 0.7)..addItem('Яблоко', 50, 200, 0.1);
+    productsStorage.init();
     userInfo.shopManager.init();
-    
     _autoSaveTimer = Timer.periodic(const Duration(seconds: 30), (timer) {
       saveUserInfo();
     });

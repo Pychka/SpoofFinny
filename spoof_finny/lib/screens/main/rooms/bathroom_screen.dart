@@ -11,17 +11,17 @@ import 'package:spoof_finny/models/time_system/game_time_changed_event.dart';
 
 class BathroomScreen extends FlameGame with HasGameReference {
   BathroomScreen({required this.changeScreen});
-
+  SpriteComponent? background;
   final Function(int) changeScreen;
   @override
   Future<void> onLoad() async {
     super.onLoad();
 
     // Wait assets :)
-    final background = SpriteComponent()
+    background = SpriteComponent()
       ..sprite = await loadSprite("bathroom/background.png")
       ..size = size;
-    add(background);
+    add(background!);
 
     final player = GameState.instance.userInfo.newPlayer;
 
@@ -100,30 +100,36 @@ class BathroomScreen extends FlameGame with HasGameReference {
     // add(bath);
 
     
-    // final toilet = InteractiveArea(
-    //   relativeX: 0.03515625,
-    //   relativeY: 0.189453125,
-    //   relativeWidth: 0.236328125,
-    //   relativeHeight: 0.640625,
-    //   onTapAction: () {
-    //     if(toiletStat.state() != StatValueState.critMax) return;
-    //     GameState.instance.gameEventBus.actionHappen(
-    //       ChangeStatValueGameEvent(
-    //         stat: toiletStat,
-    //         value: 0,
-    //         operator: Operator.change
-    //         )
-    //       );
-          
-    //     GameState.instance.gameEventBus.actionHappen(
-    //       ChangeStatValueGameEvent(
-    //         stat: hygiene,
-    //         value: toiletStat.maxValue,
-    //         operator: Operator.plus
-    //         )
-    //       );
-    //   },
-    // );
-    // add(toilet);
+  // final toilet = InteractiveArea(
+  //   relativeX: 0.03515625,
+  //   relativeY: 0.189453125,
+  //   relativeWidth: 0.236328125,
+  //   relativeHeight: 0.640625,
+  //   onTapAction: () {
+  //     if(toiletStat.state() != StatValueState.critMax) return;
+  //     GameState.instance.gameEventBus.actionHappen(
+  //       ChangeStatValueGameEvent(
+  //         stat: toiletStat,
+  //         value: 0,
+  //         operator: Operator.change
+  //         )
+  //       );
+        
+  //     GameState.instance.gameEventBus.actionHappen(
+  //       ChangeStatValueGameEvent(
+  //         stat: hygiene,
+  //         value: toiletStat.maxValue,
+  //         operator: Operator.plus
+  //         )
+  //       );
+  //   },
+  // );
+  // add(toilet);
+  }
+
+  @override
+  void onGameResize(Vector2 size) {
+    super.onGameResize(size);
+    background?.size = size;
   }
 }

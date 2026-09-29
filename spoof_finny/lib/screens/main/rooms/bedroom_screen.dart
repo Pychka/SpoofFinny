@@ -10,17 +10,17 @@ import 'package:spoof_finny/models/time_system/game_time_changed_event.dart';
 
 class BedroomScreen extends FlameGame with HasGameReference {
   BedroomScreen({required this.changeScreen});
-
+  SpriteComponent? background;
   final Function(int) changeScreen;
   @override
   Future<void> onLoad() async {
     super.onLoad();
 
     // Wait assets :)
-    final background = SpriteComponent()
+    background = SpriteComponent()
       ..sprite = await loadSprite("bedroom/background.png")
       ..size = size;
-    add(background);
+    add(background!);
 
     final player = GameState.instance.userInfo.newPlayer;
 
@@ -69,5 +69,11 @@ class BedroomScreen extends FlameGame with HasGameReference {
       },
     );
     add(bed);
+  }
+
+  @override
+  void onGameResize(Vector2 size) {
+    super.onGameResize(size);
+    background?.size = size;
   }
 }

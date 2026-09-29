@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:hive_ce/hive_ce.dart';
 import 'package:hive_ce_flutter/hive_flutter.dart';
-import 'package:spoof_finny/models/game_event_bus.dart';
+import 'package:spoof_finny/models/game_events/game_event_bus.dart';
 import 'package:spoof_finny/models/time_system/game_time.dart';
 import 'package:spoof_finny/models/time_system/game_time_changed_event.dart';
 part 'game_time_manager.g.dart';

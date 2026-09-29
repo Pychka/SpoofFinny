@@ -1,16 +1,15 @@
-
 import 'dart:async';
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:hive_ce/hive_ce.dart';
 import 'package:hive_ce_flutter/hive_flutter.dart';
-import 'package:spoof_finny/models/game_event_bus.dart';
+import 'package:spoof_finny/models/game_events/game_event_bus.dart';
 import 'package:spoof_finny/models/game_state.dart';
 import 'package:spoof_finny/models/quests/rewards/stat_reward.dart';
 import 'package:spoof_finny/models/stats/operator.dart';
 import 'package:spoof_finny/models/stats/player_stat.dart';
 import 'package:spoof_finny/models/stats/stat_type.dart';
 import 'package:spoof_finny/models/stats/stat_value_state.dart';
-
 import 'package:spoof_finny/models/game_events/complete_task_game_event.dart';
 import 'package:spoof_finny/models/game_events/change_stat_value_game_event.dart';
 import 'package:spoof_finny/models/game_events/crit_stat_value_game_event.dart';
@@ -23,8 +22,9 @@ class StatManager extends ChangeNotifier {
   Map<String, PlayerStat> _stats;
   late GameEventBus _gameEventBus;
   late StreamSubscription onActionHappenSubscription;
+  static final Random random = Random();
 
-StatManager({
+  StatManager({
     Map<String, PlayerStat>? statsValues,
   }) : _stats = statsValues ?? {};
 
@@ -33,7 +33,7 @@ StatManager({
     onActionHappenSubscription = _gameEventBus.onActionHappen.listen((gameEvent) {
       if(gameEvent is CompleteTaskGameEvent){
         for(final reward in gameEvent.rewards.whereType<StatReward>()){
-          _changeStat(_stats[reward.statName], reward.amount, reward.operator);
+          _changeStat(_stats[reward.stat.name], reward.amount, reward.operator);
         }
       }
       if(gameEvent is ChangeStatValueGameEvent){
@@ -52,10 +52,11 @@ StatManager({
   }
 
   List<PlayerStat> get stats => List.unmodifiable(_stats.values);
+  List<PlayerStat> get constantStats => List.unmodifiable(_stats.values.where((stat) => stat.type == StatType.constant));
 
-  void updateStat(String statName, int value, Operator operator){
-    final stat = _stats[statName];
-    if(stat == null){
+  void updateStat(PlayerStat stat, int value, Operator operator){
+    final userStat = _stats[stat.name];
+    if(userStat == null){
       return;
     }
     _gameEventBus.actionHappen(ChangeStatValueGameEvent(stat: stat, value: value, operator: operator));
@@ -77,6 +78,9 @@ StatManager({
     if(stat == null) throw Exception('Not found stat: $name');
     return stat;
   }
+
+  PlayerStat getRandomStat() => constantStats[random.nextInt(constantStats.length)];
+  
 
   void _changeStat(PlayerStat? stat, int value, Operator operator){
     if(stat == null) return;

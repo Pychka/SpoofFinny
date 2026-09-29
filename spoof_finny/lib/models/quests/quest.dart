@@ -24,17 +24,17 @@ class Quest extends TimeSkipped {
   @HiveField(4)
   List<QuestGoal> goals;
   @HiveField(5)
-  int id;
+  String id;
   int _completedGoals = 0;
   Quest({
     required this.id,
     required this.title,
     required this.description,
-    this.rewards = const [],
-    this.goals = const [],
+    List<QuestReward> rewards = const [],
+    List<QuestGoal> goals = const [],
     this.state = QuestState.active,
     required super.timeChangedEvent
-  }){
+  }) : goals = List.from(goals), rewards = List.from(rewards){
     completedGoals = goals.where((questGoal) => questGoal.isCompleted()).length;
   }
 

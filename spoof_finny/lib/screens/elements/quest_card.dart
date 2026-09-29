@@ -69,7 +69,11 @@ class _QuestCardState extends State<QuestCard> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Описание:'
+                          'Описание:',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold
+                          ),
                         ),
                         const Divider(),
                         Text(
@@ -77,19 +81,33 @@ class _QuestCardState extends State<QuestCard> {
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          'Задачи:'
+                          'Задачи:',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold
+                          ),
                         ),
                         const Divider(),
-                        ListView.builder(
+                        ListView.separated(
                           itemCount: widget.quest.goals.length,
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(), 
+                          separatorBuilder: (context, index) => const SizedBox(height: 12),
                           itemBuilder: (context, index) {
                             final goal = widget.quest.goals[index];
                             return Row(
                               spacing: 5,
                               children: [
-                                Text(goal.title),
+                                Expanded(
+                                  child: Text(
+                                    goal.displayedTitle,
+                                    softWrap: true,
+                                    maxLines: 3,
+                                    overflow: TextOverflow.clip,
+                                    style: const TextStyle(fontSize: 14),
+                                  ),
+                                ),
+                                const SizedBox(width: 12),
                                 SizedBox(
                                   width: 80,
                                   height: 30,
@@ -100,7 +118,13 @@ class _QuestCardState extends State<QuestCard> {
                           },
                         ),
                         const SizedBox(height: 8),
-                        Text('Награды:'),
+                        Text(
+                          'Награды:',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold
+                          ),
+                        ),
                         const Divider(),
                         SizedBox(
                           height: 60,

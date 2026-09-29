@@ -2,7 +2,7 @@
 import 'dart:async';
 import 'package:hive_ce/hive_ce.dart';
 import 'package:hive_ce_flutter/hive_flutter.dart';
-import 'package:spoof_finny/models/game_event_bus.dart';
+import 'package:spoof_finny/models/game_events/game_event_bus.dart';
 import 'package:spoof_finny/models/game_state.dart';
 import 'package:spoof_finny/models/money_system/money_storage.dart';
 import 'package:spoof_finny/models/money_system/wallet.dart';
@@ -20,6 +20,8 @@ class MoneyManager {
   late GameEventBus _gameEventBus;
   late StreamSubscription onActionHappenSubscription;
 
+
+  double get allMoney => wallet.money + moneyBills.fold(0, (x, next) => x + next.money);
   
   MoneyManager({
     required this.wallet,

@@ -7,17 +7,17 @@ import 'package:spoof_finny/models/interactives/interactive_area.dart';
 
 class HomeScreen extends FlameGame with HasGameReference {
   HomeScreen({required this.changeScreen});
-
+  SpriteComponent? background;
   final Function(int) changeScreen;
   @override
   Future<void> onLoad() async {
     super.onLoad();
 
     // Wait assets :)
-    final background = SpriteComponent()
+    background = SpriteComponent()
       ..sprite = await loadSprite("hallway/background.png")
       ..size = size;
-    add(background);
+    add(background!);
 
     final player = GameState.instance.userInfo.newPlayer;
 
@@ -55,5 +55,11 @@ class HomeScreen extends FlameGame with HasGameReference {
       relativeY: 0,
     );
     add(goBedroom);
+  }
+
+  @override
+  void onGameResize(Vector2 size) {
+    super.onGameResize(size);
+    background?.size = size;
   }
 }

@@ -4,7 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:hive_ce/hive_ce.dart';
 import 'package:hive_ce_flutter/hive_flutter.dart';
 import 'package:spoof_finny/models/data_services/storage_service.dart';
-import 'package:spoof_finny/models/game_event_bus.dart';
+import 'package:spoof_finny/models/game_events/game_event_bus.dart';
 import 'package:spoof_finny/models/game_state.dart';
 import 'package:spoof_finny/models/quests/rewards/experience_reward.dart';
 

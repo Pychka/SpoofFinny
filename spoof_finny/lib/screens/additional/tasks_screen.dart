@@ -9,6 +9,8 @@ class TasksScreen extends StatefulWidget{
 }
 
 class _TasksScreenState extends State<TasksScreen>{
+  int selectedIndex = 1;
+  final List<String> _buttons = ['Все', 'Ежедневные', 'Еженедельные', 'Ежемесечные', 'Без срока'];
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
@@ -30,6 +32,37 @@ class _TasksScreenState extends State<TasksScreen>{
                 ),
               ],
             ),
+            SizedBox(
+              height: 50,
+              child: ListView.builder(
+                shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
+                itemCount: _buttons.length,
+                padding: const EdgeInsets.symmetric(horizontal: 4.0), 
+                itemBuilder: (context, index) {
+                  return InkWell(
+                    onTap: () {
+                      setState(() {
+                        selectedIndex = index + 1;
+                      });
+                    },
+                    child: Card(
+                        color: index + 1 == selectedIndex ? Colors.blueAccent : Colors.white70,
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                          child: Text(
+                            _buttons[index],
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold
+                            ),
+                          ),
+                        ),
+                      )
+                  );
+                }
+              ),
+            ),
             const Divider(),
 
             ConstrainedBox(
@@ -37,7 +70,12 @@ class _TasksScreenState extends State<TasksScreen>{
               child: ListenableBuilder(
                 listenable: GameState.instance.questManager,
                 builder: (context, child) {
-                  if(GameState.instance.questManager.activeQuests.isEmpty){
+                  final quests = selectedIndex == 2 ? GameState.instance.questManager.dailyQuests
+                    : selectedIndex == 3 ? GameState.instance.questManager.weeklyQuests
+                    : selectedIndex == 4 ? GameState.instance.questManager.monthlyQuests
+                    : selectedIndex == 5 ? GameState.instance.questManager.statedQuests
+                    : GameState.instance.questManager.activeQuests;
+                  if(quests.isEmpty){
                     return const SizedBox(
                       height: 100,
                       child: Center(child: Text('Заданий нет 😿', style: TextStyle(fontSize: 30),)),
@@ -45,9 +83,9 @@ class _TasksScreenState extends State<TasksScreen>{
                   }
                   return ListView.builder(
                     shrinkWrap: true,
-                    itemCount: GameState.instance.questManager.activeQuests.length,
+                    itemCount: quests.length,
                     itemBuilder: (context, index) {
-                      final quest = GameState.instance.questManager.activeQuests[index];
+                      final quest = quests[index];
                       return QuestCard(quest: quest);
                     },
                   );

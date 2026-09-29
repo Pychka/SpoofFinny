@@ -9,9 +9,13 @@ part 'quest_goal.g.dart';
 class QuestGoal extends TimeSkipped{
   @HiveField(0)
   String title;  
+  @HiveField(1)
+  String id;  
+  double factor = 0.0;
 
   QuestGoal({
     required this.title,
+    required this.id,
     required super.timeChangedEvent
   });
 
@@ -22,7 +26,17 @@ class QuestGoal extends TimeSkipped{
   void onEvent(GameEvent action){
   }
 
+  String get displayedTitle => title;
+
   Widget getWidget(){
     return Icon(isCompleted() ? Icons.check_box_outline_blank : Icons.check_box_outlined);
   }
+
+  void setTarget(double value){
+
+  }
+
+  double get baseValue => 0;
+
+  QuestGoal get createNew => QuestGoal(id: id, timeChangedEvent: timeChangedEvent, title: title);
 }

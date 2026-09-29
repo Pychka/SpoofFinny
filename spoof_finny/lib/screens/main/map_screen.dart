@@ -6,7 +6,7 @@ import 'package:spoof_finny/models/interactives/interactive_sprite.dart';
 
 class MapScreen extends FlameGame with HasGameReference {
   MapScreen({required this.changeScreen, required this.changeMainScreen});
-
+  SpriteComponent? background;
   final Function(int) changeScreen;
   final Function(int) changeMainScreen;
   
@@ -14,10 +14,10 @@ class MapScreen extends FlameGame with HasGameReference {
   Future<void> onLoad() async {
     super.onLoad();
     
-    final background = SpriteComponent()
+    background = SpriteComponent()
       ..sprite = await loadSprite("map/test_map.png")
       ..size = size;
-    add(background);
+    add(background!);
 
     final blue = InteractiveSprite(
       relativeX: 0,
@@ -58,5 +58,11 @@ class MapScreen extends FlameGame with HasGameReference {
       assetPath: purpleShop.assetPath
     );
     add(purple);
+  }
+
+  @override
+  void onGameResize(Vector2 size) {
+    super.onGameResize(size);
+    background?.size = size;
   }
 }

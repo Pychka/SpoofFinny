@@ -13,15 +13,29 @@ class QuestGoalProgress extends QuestGoal{
     required this.itemName,
     required super.title,
     required super.timeChangedEvent,
+    required super.id,
   }) : _currentValue = currentValue;
 
-  @HiveField(1)
-  String itemName;
   @HiveField(2)
-  int _currentValue;
+  String itemName;
   @HiveField(3)
+  int _currentValue;
+  @HiveField(4)
   int requiredValue;
   ValueNotifier<int> currentValueNotifier = ValueNotifier(0);
+
+  @override
+  String get displayedTitle => title
+    .replaceAll('{requiredValue}', requiredValue.toString())
+    .replaceAll('{itemName}', itemName);
+
+  @override
+  void setTarget(double value){
+    requiredValue = value.toInt();
+  }
+
+  @override
+  double get baseValue => requiredValue.toDouble();
 
   int get currentValue => _currentValue;
 
@@ -67,4 +81,17 @@ class QuestGoalProgress extends QuestGoal{
       },
     );
   }
+  @override
+  QuestGoal get createNew => QuestGoalProgress(id: id, timeChangedEvent: timeChangedEvent, title: title, requiredValue: requiredValue, itemName: itemName);
+
+  @override
+  int get hashCode => Object.hash(id, requiredValue, itemName);
+
+  @override
+  bool operator ==(Object other) =>
+    identical(this, other) ||
+      other is QuestGoalProgress &&
+          requiredValue == other.requiredValue &&
+          id == other.id &&
+          itemName == other.itemName;
 }

@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:hive_ce_flutter/hive_ce_flutter.dart';
-import 'package:spoof_finny/models/game_event_bus.dart';
+import 'package:spoof_finny/models/game_events/game_event_bus.dart';
 import 'package:spoof_finny/models/game_events/use_item_game_event.dart';
 import 'package:spoof_finny/models/game_state.dart';
 import 'package:spoof_finny/models/items/item.dart';

@@ -17,19 +17,22 @@ class ProgressGoalAdapter extends TypeAdapter<ProgressGoal> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return ProgressGoal(
-      progress: fields[1] as QuestGoalProgress,
+      progress: fields[2] as QuestGoalProgress,
       title: fields[0] as String,
       timeChangedEvent: fields[99] as GameTimeChangedEvent,
+      id: fields[1] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, ProgressGoal obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.title)
       ..writeByte(1)
+      ..write(obj.id)
+      ..writeByte(2)
       ..write(obj.progress)
       ..writeByte(99)
       ..write(obj.timeChangedEvent);

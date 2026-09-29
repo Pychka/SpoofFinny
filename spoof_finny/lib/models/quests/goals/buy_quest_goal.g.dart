@@ -8,7 +8,7 @@ part of 'buy_quest_goal.dart';
 
 class BuyQuestGoalAdapter extends TypeAdapter<BuyQuestGoal> {
   @override
-  final typeId = 33;
+  final typeId = 34;
 
   @override
   BuyQuestGoal read(BinaryReader reader) {
@@ -17,27 +17,30 @@ class BuyQuestGoalAdapter extends TypeAdapter<BuyQuestGoal> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return BuyQuestGoal(
-      requiredTotalPrice: (fields[5] as num).toDouble(),
-      requiredValue: (fields[3] as num).toInt(),
+      requiredTotalPrice: (fields[6] as num).toDouble(),
+      requiredValue: (fields[4] as num).toInt(),
       title: fields[0] as String,
-      itemName: fields[1] as String,
+      itemName: fields[2] as String,
       timeChangedEvent: fields[99] as GameTimeChangedEvent,
-    ).._totalPrice = (fields[4] as num).toDouble();
+      id: fields[1] as String,
+    ).._totalPrice = (fields[5] as num).toDouble();
   }
 
   @override
   void write(BinaryWriter writer, BuyQuestGoal obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.title)
       ..writeByte(1)
+      ..write(obj.id)
+      ..writeByte(2)
       ..write(obj.itemName)
-      ..writeByte(3)
-      ..write(obj.requiredValue)
       ..writeByte(4)
-      ..write(obj._totalPrice)
+      ..write(obj.requiredValue)
       ..writeByte(5)
+      ..write(obj._totalPrice)
+      ..writeByte(6)
       ..write(obj.requiredTotalPrice)
       ..writeByte(99)
       ..write(obj.timeChangedEvent);

@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:spoof_finny/models/game_events/change_stat_value_game_event.dart';
 import 'package:spoof_finny/models/game_state.dart';
 import 'package:spoof_finny/models/items/food.dart';
@@ -9,8 +10,13 @@ import 'package:spoof_finny/models/time_system/game_time_changed_event.dart';
 class ItemFactory {
   final Map<String, Item> _factories = {};
   ItemFactory._internal();
-
+  static final Random random = Random();
   static final ItemFactory instance = ItemFactory._internal();
+
+  Item getRandomItem<T extends Item>(){
+    final items = _factories.values.whereType<T>().toList();
+    return items[random.nextInt(items.length)].createNew(0);
+  }
 
   Item get(String name, int count){
     final item = _factories[name];

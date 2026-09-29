@@ -1,6 +1,8 @@
 import 'package:hive_ce_flutter/hive_flutter.dart';
 import 'package:spoof_finny/models/experience_system.dart';
 import 'package:spoof_finny/models/game_events/change_stat_value_game_event.dart';
+import 'package:spoof_finny/models/quests/goals/exp_quest_goal.dart';
+import 'package:spoof_finny/models/quests/goals/money_quest_goal.dart';
 import 'package:spoof_finny/models/time_system/game_time.dart';
 import 'package:spoof_finny/models/time_system/game_time_changed_event.dart';
 import 'package:spoof_finny/models/time_system/game_time_manager.dart';
@@ -57,6 +59,8 @@ class StorageService {
     Hive.registerAdapter(ShopAdapter());
     Hive.registerAdapter(GameTimeAdapter());
     Hive.registerAdapter(GameTimeChangedEventAdapter());
+    Hive.registerAdapter(MoneyQuestGoalAdapter());
+    Hive.registerAdapter(ExpQuestGoalAdapter());
     _userBox = await Hive.openBox<UserInfo>(_boxName);
   }
 

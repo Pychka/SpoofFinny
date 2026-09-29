@@ -16,15 +16,22 @@ class ShopManagerAdapter extends TypeAdapter<ShopManager> {
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return ShopManager().._shops = (fields[0] as Map).cast<String, Shop>();
+    return ShopManager()
+      .._shops = (fields[0] as Map).cast<String, Shop>()
+      ..wallet = fields[1] as Wallet
+      ..nextUpdateTime = fields[2] as GameTime;
   }
 
   @override
   void write(BinaryWriter writer, ShopManager obj) {
     writer
-      ..writeByte(1)
+      ..writeByte(3)
       ..writeByte(0)
-      ..write(obj._shops);
+      ..write(obj._shops)
+      ..writeByte(1)
+      ..write(obj.wallet)
+      ..writeByte(2)
+      ..write(obj.nextUpdateTime);
   }
 
   @override

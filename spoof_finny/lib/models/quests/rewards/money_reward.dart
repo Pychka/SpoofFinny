@@ -4,9 +4,10 @@ import 'package:spoof_finny/models/quests/rewards/quest_reward.dart';
 import 'package:spoof_finny/models/user_info.dart';
 
 class MoneyReward extends QuestReward {
-  final int amount;
+  double amount;
 
   MoneyReward({
+    required super.id,
     required this.amount,
   });
 
@@ -17,5 +18,26 @@ class MoneyReward extends QuestReward {
 
   @override
   Widget getWidget() =>
-    Text('$amount 🪙');
+    Text('$amount🪙');
+
+  @override
+  QuestReward get createNew => MoneyReward(id: id, amount: amount);
+
+  @override
+  double get baseValue => amount.toDouble();
+
+  @override
+  void init(double target) {
+    amount = target;
+  }
+  @override
+  int get hashCode => Object.hash(id, amount);
+
+  @override
+  bool operator ==(Object other) =>
+    identical(this, other) ||
+      other is MoneyReward &&
+          runtimeType == other.runtimeType &&
+          id == other.id &&
+          amount == other.amount;
 }

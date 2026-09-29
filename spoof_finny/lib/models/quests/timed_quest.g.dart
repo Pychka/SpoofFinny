@@ -17,21 +17,26 @@ class TimedQuestAdapter extends TypeAdapter<TimedQuest> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return TimedQuest(
-        endAt: fields[7] as GameTime,
-        title: fields[0] as String,
-        description: fields[1] as String,
-        id: (fields[5] as num).toInt(),
-        state: fields[2] == null ? QuestState.active : fields[2] as QuestState,
-        timeChangedEvent: fields[99] as GameTimeChangedEvent,
-      )
-      ..goals = (fields[4] as List).cast<QuestGoal>()
-      ..rewards = (fields[30] as List).cast<QuestReward>();
+      endAt: fields[7] as GameTime,
+      startAt: fields[8] as GameTime,
+      title: fields[0] as String,
+      description: fields[1] as String,
+      id: fields[5] as String,
+      rewards: fields[30] == null
+          ? const []
+          : (fields[30] as List).cast<QuestReward>(),
+      goals: fields[4] == null
+          ? const []
+          : (fields[4] as List).cast<QuestGoal>(),
+      state: fields[2] == null ? QuestState.active : fields[2] as QuestState,
+      timeChangedEvent: fields[99] as GameTimeChangedEvent,
+    );
   }
 
   @override
   void write(BinaryWriter writer, TimedQuest obj) {
     writer
-      ..writeByte(8)
+      ..writeByte(9)
       ..writeByte(0)
       ..write(obj.title)
       ..writeByte(1)
@@ -44,6 +49,8 @@ class TimedQuestAdapter extends TypeAdapter<TimedQuest> {
       ..write(obj.id)
       ..writeByte(7)
       ..write(obj.endAt)
+      ..writeByte(8)
+      ..write(obj.startAt)
       ..writeByte(30)
       ..write(obj.rewards)
       ..writeByte(99)
